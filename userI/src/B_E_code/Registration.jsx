@@ -52,7 +52,7 @@ function Registration() {
       setres(res.data.msg)
       alert(res.data.msg)
     }).catch((err) => {
-      seterror(err.response.data.msg);
+      seterror(err);
     })
 
   }
@@ -93,12 +93,15 @@ function Registration() {
               <label htmlFor="other">other</label>
             </div>
             <center>
-              <input type="submit" className='submit' value="register" id='submit' />
+              <input type="submit" className='submit' value={upload ? 'processing' : 'register'} id='submit' />
             </center>
             <h6 id='error'>{error}</h6>
           </form>
           <h4>already have account <Link to='/login'>log in</Link></h4>
         </div >
+        {
+          upload ? <h5>please wait a minute</h5> : null
+        }
       </center >
     </>
   )
