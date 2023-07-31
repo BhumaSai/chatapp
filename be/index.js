@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const server = require('https').createServer(app)
 const { Server } = require('socket.io');
-const io = new Server(server, { cors: { origin: '*' } })
+const io = new Server(server, { cors: { origin: 'https://feelfreetochat.netlify.app/' } })
 require('dotenv').config()
 const register = require('./auth/register')
 const login = require('./auth/login')
@@ -20,7 +20,9 @@ const path = require('path');
 
 
 // cors 
-app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 
 
 // json
@@ -85,7 +87,7 @@ io.on('connection', (socket) => {
     socket.emit('onlineUsers', currentUser)
     // socket disconnect
     socket.on('disconnect', () => {
-        const deleted = deleteUser(socket.id)
+        deleteUser(socket.id)
     })
 
 })
@@ -93,5 +95,5 @@ io.on('connection', (socket) => {
 
 const Port = process.env.URL || 4000
 
-server.listen(4000)
+server.listen(Port)
 
