@@ -23,6 +23,15 @@ const path = require('path');
 app.use(cors({
     origin: 'https://feelfreetochat.netlify.app/'
 }));
+
+app.use(function (req, res, next) {
+    //Enabling CORS
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,  Accept, x - client - key, x - client - token, x - client - secret, Authorization");
+    next();
+});
+
 // json
 app.use(express.json())
 // db connection
