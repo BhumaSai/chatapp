@@ -20,9 +20,7 @@ const path = require('path');
 
 
 // cors 
-app.use(cors({
-    origin: '*'
-}));
+app.use(cors());
 
 
 // json
@@ -95,5 +93,7 @@ io.on('connection', (socket) => {
 
 const Port = process.env.URL || 4000
 
-server.listen(Port)
+server.listen(Port, () => {
+    console.log('rufasj');
+})
 
