@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
 const { Server } = require('socket.io');
-const io = new Server(server, { cors: { origin: 'http://localhost:3000' } })
+const io = new Server(server, { cors: { origin: '*' } })
 require('dotenv').config()
 const register = require('./auth/register')
 const login = require('./auth/login')
@@ -12,8 +12,8 @@ const cors = require('cors')
 const verification = require('./auth/verification')
 const verifylink = require('./middleware/resetpass')
 const { middleware } = require('./middleware/protect')
-const { savemessages, getmessages, deleteConversation } = require('./chat.js/messages');
-const { getUserFriends, addFriends, allUsers, userProfile, acceptRequest, deleteRequest, friend_request, deletefromfriendlist } = require('./chat.js/userfriends');
+const { savemessages, getmessages } = require('./chat.js/messages');
+const { getUserFriends, addFriends, allUsers, userProfile, acceptRequest, deleteRequest, friend_request } = require('./chat.js/userfriends');
 const userfriend = require('./models/userfriend');
 const Users = require('./models/registermodel');
 const path = require('path');
@@ -21,7 +21,7 @@ const path = require('path');
 
 // cors 
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: '*'
 }));
 // json
 app.use(express.json())

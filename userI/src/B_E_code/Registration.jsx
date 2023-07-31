@@ -52,6 +52,7 @@ function Registration() {
       setres(res.data.msg)
       alert(res.data.msg)
     }).catch((err) => {
+      console.log(error);
       seterror(err);
     })
 
