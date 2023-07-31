@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
 const { Server } = require('socket.io');
-const io = new Server(server, { cors: { origin: 'https://feelfreetochat.netlify.app/' } })
+const io = new Server(server, { cors: { origin: 'http://feelfreetochat.netlify.app/' } })
 require('dotenv').config()
 const register = require('./auth/register')
 const login = require('./auth/login')
@@ -21,7 +21,7 @@ const path = require('path');
 
 // cors 
 app.use(cors({
-    origin: 'https://feelfreetochat.netlify.app/'
+    origin: 'http://feelfreetochat.netlify.app/'
 }));
 // json
 app.use(express.json())
