@@ -58,7 +58,7 @@ function Chat() {
   useEffect(() => {
     friendslist()
     setowner(localStorage.getItem('UserID'))
-    socket.current = io('http://localhost:1919')
+    socket.current = io('https://feelfreetochat.onrender.com/')
   }, [])
 
   // send message function
