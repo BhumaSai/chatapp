@@ -93,7 +93,5 @@ io.on('connection', (socket) => {
 
 const Port = process.env.URL || 4000
 
-server.listen(Port, () => {
-    console.log('rufasj');
-})
+server.listen(Port)
 
