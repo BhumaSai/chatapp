@@ -24,11 +24,6 @@ app.use(cors({
     origin: 'https://feelfreetochat.netlify.app/'
 }));
 
-app.use(function (request, response, next) {
-    response.header("Access-Control-Allow-Origin", "*");
-    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 // json
 app.use(express.json())
@@ -98,6 +93,7 @@ io.on('connection', (socket) => {
 })
 
 
-const Port = process.env.URL || 1919
+const Port = process.env.URL || 4000
+
 server.listen(Port)
 
