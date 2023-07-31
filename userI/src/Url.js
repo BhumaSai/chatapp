@@ -2,5 +2,5 @@ import axios from "axios";
 
 
 export const URL = axios.create({
-    baseURL: 'http://localhost:1919/'
+    baseURL: 'https://chatapp-z5cl.onrender.com/'
 })
