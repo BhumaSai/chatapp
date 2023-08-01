@@ -68,13 +68,36 @@ function Myprofile() {
                     friends.map(data => {
                       const { _id, name, image } = data;
                       return (
-                        <div className='all-friends' key={_id}>
-                          <img src={image} alt={name} />
-                          <p>{name}</p>
-                          <button className='btn trashbtn' onClick={() => {
-                            setdel(!del)
-                          }}><FaTrash /></button>
-                        </div>
+                        <>
+                          <div className='all-friends' key={_id}>
+                            <img src={image} alt={name} />
+                            <p>{name}</p>
+                            <button className='btn trashbtn' onClick={() => {
+                              setdel(!del)
+                            }}><FaTrash /></button>
+                          </div>
+                          <div className='all-friends' key={_id}>
+                            <img src={image} alt={name} />
+                            <p>{name}</p>
+                            <button className='btn trashbtn' onClick={() => {
+                              setdel(!del)
+                            }}><FaTrash /></button>
+                          </div>
+                          <div className='all-friends' key={_id}>
+                            <img src={image} alt={name} />
+                            <p>{name}</p>
+                            <button className='btn trashbtn' onClick={() => {
+                              setdel(!del)
+                            }}><FaTrash /></button>
+                          </div>
+                          <div className='all-friends' key={_id}>
+                            <img src={image} alt={name} />
+                            <p>{name}</p>
+                            <button className='btn trashbtn' onClick={() => {
+                              setdel(!del)
+                            }}><FaTrash /></button>
+                          </div>
+                        </>
                       )
                     })
                     : <Loader />

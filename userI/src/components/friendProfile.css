@@ -69,9 +69,9 @@
     color: #000000;
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:600px) {
     .friend-Profile {
-        width: 80%;
+        width: 97%;
     }
 
     .friend-details .name,
@@ -171,7 +171,7 @@
     width: 100%;
     height: 99%;
     object-fit: cover;
-    opacity: 1;
+    opacity: 0.6;
 }
 
 .image p {
@@ -184,7 +184,7 @@
     transform: translate(-50%, -50%);
     font-size: 2rem;
     text-transform: capitalize;
-    background: #00000044;
+    background: #000000b2;
     font-weight: 800;
     padding: 1rem;
     color: #fff
@@ -248,7 +248,15 @@
 }
 
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:600px) {
+    .hero-text-center {
+        width: 100%;
+    }
+
+    .hero-text-center .text {
+        width: 90%;
+    }
+
     .authbuttons a {
         min-width: 75px;
         font-size: 1rem;

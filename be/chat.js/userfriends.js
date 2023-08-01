@@ -59,8 +59,7 @@ exports.getUserFriends = async (req, res) => {
 // All Users Of This Application
 exports.allUsers = async (req, res) => {
     try {
-        const users = await Users.find()
-
+        const users = await Users.find({ verified: true })
         const allusers = await users.filter(data => {
             return data._id != req.user.id
         })

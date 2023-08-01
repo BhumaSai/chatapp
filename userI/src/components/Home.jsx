@@ -1,8 +1,8 @@
 import React from 'react'
 import Nav from '../n_f_components/Nav'
 import { Link } from 'react-router-dom'
-import heroimage from '../assets/hero-img.avif'
-import heroimage2 from '../assets/hero-img-2.avif'
+import heroimage from '../assets/hero-img.jpg'
+import heroimage2 from '../assets/hero-img-2.jpg'
 import Footer from '../n_f_components/Footer'
 import './friendProfile.css'
 

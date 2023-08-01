@@ -65,7 +65,6 @@ const getReceiver = (Rid) => {
 }
 
 io.on('connection', (socket) => {
-    console.log('connected');
     socket.on('add-user', (User) => {
         addUser(User, socket.id)
     })

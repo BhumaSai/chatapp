@@ -58,7 +58,7 @@ function Chat() {
   useEffect(() => {
     friendslist()
     setowner(localStorage.getItem('UserID'))
-    socket.current = io('https://feelfreebe.onrender.com')
+    socket.current = io('https://feelfreebe.onrender.com/')
   }, [])
 
   // send message function
@@ -146,7 +146,7 @@ function Chat() {
                     </div>
                   )
                 })
-                : <h4 style={{ textTransform: 'capitalize', textDecoration: 'underline' }}> you don't have friends  add friends</h4>
+                : <h4 style={{ textTransform: 'capitalize' }}> you don't have friends  add friends</h4>
               }
 
               {/* message area */}
@@ -160,7 +160,7 @@ function Chat() {
                   </div>
                   <div className="details">
                     <button className='btn btn2' onClick={togglemenu}> <FaEllipsisV size={"1.3rem"} /></button>
-                    <div className={toggle ? "det-items " : "det-items display"}>
+                    <div className={toggle ? "det-items" : "det-items display"}>
                       <button className="btn delbtn" onClick={viewProfilefunc}>view profile</button>
                     </div>
                     <Userprofile pickUser={pickUser} viewProfilefunc={viewProfilefunc} viewProfile={viewProfile} toggle={toggle} />
@@ -175,7 +175,7 @@ function Chat() {
                         return (
                           <div className={owner !== receiverID ? "sender" : 'receiver'} key={index} ref={scrollMsg}>
                             <p className={owner === senderID ? "send-text" : 'receive-text'}>{message}</p>
-                            <h6 className='current-time'>{updatedAt ? dateFormat(updatedAt, 'hh:MM') : dateFormat(new Date(), "hh:MM")}</h6>
+                            <h6 className='current-time' >{updatedAt ? dateFormat(updatedAt, 'hh:MM') : dateFormat(new Date(), "hh:MM")}</h6>
                           </div>
                         )
                       }) : null

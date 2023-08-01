@@ -25,8 +25,8 @@ function Registration() {
     try {
       const file = e.target.files[0];
 
-      if (file.size >= 10485760) {
-        return alert('max file size is 10mb please upload below 10Mb image')
+      if (file.size <= 7340032) {
+        return alert('max file size is 10mb please upload below 7Mb image')
       } else {
         setfileurl('Image Uploaded')
       }

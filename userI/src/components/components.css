@@ -73,15 +73,13 @@
 /* chat section */
 
 .chat-box {
-    overflow: hidden;
     width: 70%;
     padding: 1rem;
-    max-height: 100%;
+    height: 100%;
     margin-top: .5rem;
-    background: rgba(7, 197, 255, 0.51);
+    background: rgba(14, 243, 255, 0.358);
     border-radius: 2rem;
     box-shadow: 2px 2px 5px 5px #00000035;
-
 }
 
 .chat-items {
@@ -89,7 +87,6 @@
     height: 650px;
     display: flex;
     gap: 1rem;
-    padding: .5rem;
 }
 
 .chat-users {
@@ -146,8 +143,8 @@
 }
 
 .online {
-    height: 10px;
-    width: 10px;
+    height: 20px;
+    width: 20px;
     background: rgb(9, 237, 9);
     position: absolute;
     border-radius: 50%;
@@ -156,8 +153,8 @@
 }
 
 .offline {
-    height: 10px;
-    width: 10px;
+    height: 15px;
+    width: 15px;
     background: rgb(151, 157, 157);
     position: absolute;
     border-radius: 50%;
@@ -165,10 +162,6 @@
     left: 7px;
     border: 1px solid #000;
 }
-
-
-
-
 
 .select {
     width: 75%;
@@ -272,6 +265,10 @@
     text-align: right;
     min-width: 30%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: rgba(10, 139, 150, 0.584);
     z-index: 1000;
     padding: .5rem;
@@ -279,7 +276,7 @@
 }
 
 .det-items .delbtn {
-    font-weight: 600;
+    font-weight: 900;
     font-size: 1rem;
 }
 
@@ -346,6 +343,10 @@
     background: rgba(12, 125, 230, 0.742);
 }
 
+.display {
+    visibility: hidden;
+}
+
 
 ::-webkit-scrollbar {
     display: none;
@@ -367,7 +368,11 @@
     }
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:600px) {
+    .chat-box {
+        height: 100%;
+        width: 100%;
+    }
 
     .chat-items {
         height: 640px;
@@ -384,52 +389,64 @@
     .chat-users {
         width: 100%;
         height: 20%;
-        overflow: scroll;
+        padding: .5rem;
     }
 
     .user-chat {
         background: none;
-        width: 20%;
+        width: 19%;
         height: 100%;
         display: block;
-        float: left;
         display: flex;
+        float: left;
+        justify-content: center;
         align-items: center;
         flex-direction: column;
-        position: relative;
-        border: 1px solid #000;
         margin-right: 2px;
-        padding: 3px;
+        position: relative;
     }
 
     .user-chat-active {
-        background: rgb(19, 168, 185);
-        border-radius: 1.5em;
-        width: 20%;
+        width: 19%;
         height: 100%;
         display: block;
         float: left;
         display: flex;
+        justify-content: center;
         flex-direction: column;
         align-items: center;
-        position: relative;
         margin-right: 2px;
+        border: 2px solid #099;
+        background: none;
+        position: relative;
+    }
+
+    .online {
+        width: 10px;
+        height: 10px;
+        top: 40%;
+        left: 30%;
+        transform: translate(-10%, -70%);
+    }
+
+    .offline {
+        width: 10px;
+        height: 10px;
+        top: 40%;
+        left: 30%;
+        transform: translate(-10%, -70%);
     }
 
     #friend-name {
-        text-align: center;
-        padding: 0;
-        height: 29%;
-        font-size: .8rem;
-        width: 100%;
+        display: none;
     }
 
     #friend-img {
         width: 35px;
         height: 35px;
-        object-fit: center;
-        position: relative;
+        object-fit: cover;
     }
+
 
     /* .user-chat::after {
         content: '';
@@ -465,6 +482,11 @@
         opacity: 0.3;
         font-weight: 900;
     }
+
+    .details .delbtn {
+        font-size: .5rem;
+    }
+
 }
 
 
