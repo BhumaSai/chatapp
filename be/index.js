@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
 const { Server } = require('socket.io');
-const io = new Server(server, { cors: { origin: 'https://feelfreetochat.netlify.app/' } })
+const io = new Server(server, { cors: { origin: 'http://feelfreetochat.netlify.app/' } })
 require('dotenv').config()
 const register = require('./auth/register')
 const login = require('./auth/login')
@@ -14,14 +14,8 @@ const verifylink = require('./middleware/resetpass')
 const { middleware } = require('./middleware/protect')
 const { savemessages, getmessages } = require('./chat.js/messages');
 const { getUserFriends, addFriends, allUsers, userProfile, acceptRequest, deleteRequest, friend_request } = require('./chat.js/userfriends');
-const userfriend = require('./models/userfriend');
-const Users = require('./models/registermodel');
-const path = require('path');
-
-
 // cors 
 app.use(cors());
-
 
 // json
 app.use(express.json())
@@ -71,6 +65,7 @@ const getReceiver = (Rid) => {
 }
 
 io.on('connection', (socket) => {
+    console.log('connected');
     socket.on('add-user', (User) => {
         addUser(User, socket.id)
     })

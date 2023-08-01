@@ -53,6 +53,7 @@ const register = async (req, res) => {
             msg: "successflly registered"
         })
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             status: false,
             msg: 'server error'

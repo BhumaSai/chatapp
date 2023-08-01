@@ -20,16 +20,17 @@ function Registration() {
   const [upload, setupload] = useState(false)
 
 
-
   const uploadfile = async (e) => {
     setupload(true)
     try {
       const file = e.target.files[0];
+
       if (file.size >= 10485760) {
         return alert('max file size is 10mb please upload below 10Mb image')
       } else {
         setfileurl('Image Uploaded')
       }
+      setupload(true)
       // uploading image to cloudinary
       const formData = new FormData()
       formData.append('file', file)
@@ -52,7 +53,7 @@ function Registration() {
       setres(res.data.msg)
       alert(res.data.msg)
     }).catch((err) => {
-      seterror(err.reponse.data.msg);
+      seterror(err.response.data.msg);
     })
 
   }
@@ -77,7 +78,7 @@ function Registration() {
               <label htmlFor="file" onClick={() => document.getElementById('file').click()} color='green'><FaPlusCircle color='green' /></label>
               <input type="file" name="image-file" id="file" accept='image/*' onChange={uploadfile} hidden />
               {
-                !image ? null : <h5>{fileurl}</h5>
+                image ? <h5>{fileurl}</h5> : <h5>Image Not Added</h5>
               }
             </div>
             <input type="text" name="name" id="name" placeholder='enter your name' autoComplete='off' onChange={(e) => setname(e.target.value)} required maxLength={20} />
@@ -102,7 +103,7 @@ function Registration() {
         {
           upload ? <h5>please wait a minute</h5> : null
         }
-        <center><p>please wait until register process complete</p></center>
+        <center><p style={{ color: 'green' }}>Please Wait Until Register Process Complete</p></center>
 
       </center >
     </>

@@ -36,7 +36,7 @@ function Nav() {
                                         <Link to='/register' >register</Link>
                                     </div>
                                     <div className='login'>
-                                        <Link to='/login'><FaSignInAlt size={"1.5rem"} /></Link>
+                                        <Link to='/login'><FaSignInAlt size={"1.5rem"} color='#000' /></Link>
                                     </div>
                                 </>
                             }

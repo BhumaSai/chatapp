@@ -4,6 +4,7 @@ import { Link, Navigate } from 'react-router-dom'
 import './be.css'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import { URL } from '../Url'
+import Loader from '../n_f_components/loader'
 
 function Login() {
   const [show, setshow] = useState(false)
@@ -14,23 +15,36 @@ function Login() {
     password: ''
   })
 
+  const [logwait, setlogwait] = useState(false)
+
 
 
   const loginform = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value })
   }
+
   const loginToChatApp = (e) => {
+    setlogwait(true)
     e.preventDefault()
-    URL.post('/login', login).then(res => {
-      setlog(res.data.msg)
-      localStorage.setItem('Token', res.data.token)
-      localStorage.setItem('image', res.data.user.image);
-      localStorage.setItem('UserID', res.data.user._id)
-      localStorage.setItem('name', res.data.user.name)
-    }).catch(err => {
-      seterr(err.response.data.msg);
-    })
+    try {
+      URL.post('/login', login).then(res => {
+        setlog(res.data.msg)
+        localStorage.setItem('Token', res.data.token)
+        localStorage.setItem('image', res.data.user.image);
+        localStorage.setItem('UserID', res.data.user._id)
+        localStorage.setItem('name', res.data.user.name)
+      }).catch(err => {
+        seterr(err.response.data.msg);
+      })
+      setlogwait(false)
+    } catch (error) {
+      alert(error.message)
+      setlogwait(false)
+    }
   }
+
+
+
   if (log) {
     return <Navigate to='/' />
   }
@@ -59,10 +73,14 @@ function Login() {
             <Link to='/mail_verify'>forget password?</Link>
             <p>don't have account <Link to='/register'>register</Link></p>
           </div>
-          <center><p>please wait until log in</p></center>
+          <center><p style={{ color: 'green' }}>Please Wait Until Log In</p></center>
         </div>
         <center><h4 style={{ color: 'red', textTransform: 'capitalize', textAlign: 'center' }}>{err}</h4></center>
       </center>
+      {
+        logwait ?
+          <Loader /> : null
+      }
     </>
   )
 }
