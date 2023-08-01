@@ -102,6 +102,8 @@ function Registration() {
         {
           upload ? <h5>please wait a minute</h5> : null
         }
+        <center><p>please wait until register process complete</p></center>
+
       </center >
     </>
   )

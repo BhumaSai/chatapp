@@ -28,7 +28,6 @@ function Login() {
       localStorage.setItem('UserID', res.data.user._id)
       localStorage.setItem('name', res.data.user.name)
     }).catch(err => {
-
       seterr(err.response.data.msg);
     })
   }
@@ -60,6 +59,7 @@ function Login() {
             <Link to='/mail_verify'>forget password?</Link>
             <p>don't have account <Link to='/register'>register</Link></p>
           </div>
+          <center><p>please wait until log in</p></center>
         </div>
         <center><h4 style={{ color: 'red', textTransform: 'capitalize', textAlign: 'center' }}>{err}</h4></center>
       </center>
