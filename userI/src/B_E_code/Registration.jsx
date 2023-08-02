@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import Nav from '../n_f_components/Nav'
-import profilelogo from '../assets/profilelogo.jpg'
+import React, { Suspense, useState } from 'react'
+import profilelogo from '../assets/profilelogo.avif'
 import { Link, Navigate } from 'react-router-dom'
 import { FaPlusCircle } from 'react-icons/fa'
 import './be.css'
 import axios from 'axios'
 import { URL } from '../Url'
+const Nav = React.lazy(() => import('../n_f_components/Nav'))
 
 function Registration() {
   const [image, setimage] = useState(null)
@@ -67,7 +67,7 @@ function Registration() {
 
   return (
     <>
-      <Nav />
+      <Suspense fallback={<center>...</center>}><Nav /></Suspense>
       <center><br />
         <h2 id='register'>{res}</h2>
         <div className="register-section">

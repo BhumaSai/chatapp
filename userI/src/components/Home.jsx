@@ -1,15 +1,17 @@
-import React from 'react'
-import Nav from '../n_f_components/Nav'
+import React, { Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import heroimage from '../assets/hero-img.jpg'
-import heroimage2 from '../assets/hero-img-2.jpg'
+import heroimage from '../assets/hero-img.avif'
+import heroimage2 from '../assets/hero-img-2.avif'
 import Footer from '../n_f_components/Footer'
 import './friendProfile.css'
+
+const Nav = React.lazy(() => import('../n_f_components/Nav'))
+
 
 function Home() {
   return (
     <>
-      <Nav />
+      <Suspense fallback={<center>...</center>}><Nav /></Suspense>
       <div className='hero-section-container'>
         {
           !localStorage.getItem('Token') ?

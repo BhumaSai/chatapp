@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import profilelogo from '../assets/profilelogo.jpg'
+import profilelogo from '../assets/profilelogo.avif'
 import { FaBell, FaComment, FaHome, FaSignInAlt, FaUserFriends } from 'react-icons/fa'
 import './nf.css'
 

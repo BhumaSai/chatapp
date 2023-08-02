@@ -1,5 +1,4 @@
-import React, { useRef } from 'react'
-import Nav from '../n_f_components/Nav'
+import React, { Suspense, useRef } from 'react'
 import { Navigate } from 'react-router-dom'
 import './components.css'
 import { MdSend } from 'react-icons/md'
@@ -10,6 +9,9 @@ import dateFormat from 'dateformat'
 import { FaEllipsisV } from 'react-icons/fa'
 import Userprofile from './Userprofile'
 import { URL } from '../Url'
+
+const Nav = React.lazy(() => import('../n_f_components/Nav'))
+
 
 function Chat() {
 
@@ -129,7 +131,7 @@ function Chat() {
 
   return (
     <>
-      <Nav />
+      <Suspense fallback={<center>...</center>}><Nav /></Suspense>
       <center>
         <div className="chat-box">
           <div className="chat-items">

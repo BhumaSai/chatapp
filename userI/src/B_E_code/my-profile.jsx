@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import Nav from '../n_f_components/Nav'
+import React, { Suspense, useEffect, useState } from 'react'
 import Loader from '../n_f_components/loader'
 import { Link, Navigate } from 'react-router-dom'
 import { FaTrash } from 'react-icons/fa6'
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
 import { URL } from '../Url'
 import './be.css'
+const Nav = React.lazy(() => import('../n_f_components/Nav'))
 
 function Myprofile() {
   const [data, setdata] = useState(null)
@@ -44,7 +44,7 @@ function Myprofile() {
 
   return (
     <>
-      <Nav /><br />
+      <Suspense fallback={<center>...</center>}><Nav /></Suspense><br />
       <center>
         {
           data && !Loading && !error ?
@@ -68,36 +68,13 @@ function Myprofile() {
                     friends.map(data => {
                       const { _id, name, image } = data;
                       return (
-                        <>
-                          <div className='all-friends' key={_id}>
-                            <img src={image} alt={name} />
-                            <p>{name}</p>
-                            <button className='btn trashbtn' onClick={() => {
-                              setdel(!del)
-                            }}><FaTrash /></button>
-                          </div>
-                          <div className='all-friends' key={_id}>
-                            <img src={image} alt={name} />
-                            <p>{name}</p>
-                            <button className='btn trashbtn' onClick={() => {
-                              setdel(!del)
-                            }}><FaTrash /></button>
-                          </div>
-                          <div className='all-friends' key={_id}>
-                            <img src={image} alt={name} />
-                            <p>{name}</p>
-                            <button className='btn trashbtn' onClick={() => {
-                              setdel(!del)
-                            }}><FaTrash /></button>
-                          </div>
-                          <div className='all-friends' key={_id}>
-                            <img src={image} alt={name} />
-                            <p>{name}</p>
-                            <button className='btn trashbtn' onClick={() => {
-                              setdel(!del)
-                            }}><FaTrash /></button>
-                          </div>
-                        </>
+                        <div className='all-friends' key={_id}>
+                          <img src={image} alt={name} />
+                          <p>{name}</p>
+                          <button className='btn trashbtn' onClick={() => {
+                            setdel(!del)
+                          }}><FaTrash /></button>
+                        </div>
                       )
                     })
                     : <Loader />

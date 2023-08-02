@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
-import Nav from '../n_f_components/Nav'
+import React, { Suspense, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import './be.css'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import { URL } from '../Url'
 import Loader from '../n_f_components/loader'
+
+const Nav = React.lazy(() => import('../n_f_components/Nav'))
+
 
 function Login() {
   const [show, setshow] = useState(false)
@@ -53,7 +55,8 @@ function Login() {
   }
   return (
     <>
-      <Nav name={localStorage.getItem("name")} />
+
+      <Suspense fallback={<center>...</center>}><Nav name={localStorage.getItem("name")} /></Suspense>
       <center>
         <div className="login-section">
           <h2 className='main-text'>log in</h2>

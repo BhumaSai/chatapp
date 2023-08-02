@@ -1,5 +1,4 @@
-import React from 'react'
-import Nav from '../n_f_components/Nav'
+import React, { Suspense } from 'react'
 import { Navigate } from 'react-router-dom'
 import './components.css'
 import { FaPlusCircle } from 'react-icons/fa'
@@ -7,6 +6,7 @@ import { useState, useEffect } from 'react'
 import Loader from '../n_f_components/loader'
 import { URL } from '../Url'
 
+const Nav = React.lazy(() => import('../n_f_components/Nav'))
 
 
 function Users() {
@@ -41,7 +41,7 @@ function Users() {
 
   return (
     <>
-      <Nav />
+      <Suspense fallback={<center>...</center>}><Nav /></Suspense>
       <div className="user-section-container">
         <center><h2>USERS</h2></center>
         <div className="user-section">

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import Nav from '../n_f_components/Nav'
+import React, { useState, useEffect, Suspense } from 'react'
 import './components.css'
 import { Navigate } from 'react-router-dom'
 import Loader from '../n_f_components/loader'
@@ -7,6 +6,8 @@ import { FaVenus } from 'react-icons/fa'
 import { BsGenderMale } from 'react-icons/bs'
 import { FaRegCircleXmark } from 'react-icons/fa6'
 import { URL } from '../Url'
+
+const Nav = React.lazy(() => import('../n_f_components/Nav'))
 
 
 function Notification() {
@@ -56,7 +57,7 @@ function Notification() {
 
     return (
         <>
-            <Nav />
+            <Suspense fallback={<center>...</center>}><Nav /></Suspense>
             <div className="request-section">
                 <div className='request-container'>
                     <h3>Friend Requests</h3>
