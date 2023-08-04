@@ -26,22 +26,22 @@ function Login() {
   }
 
   const loginToChatApp = (e) => {
-    setlogwait(true)
     e.preventDefault()
     try {
+      setlogwait(true)
       URL.post('/login', login).then(res => {
         setlog(res.data.msg)
         localStorage.setItem('Token', res.data.token)
         localStorage.setItem('image', res.data.user.image);
         localStorage.setItem('UserID', res.data.user._id)
         localStorage.setItem('name', res.data.user.name)
+        setlogwait(false)
       }).catch(err => {
         seterr(err.response.data.msg);
+        setlogwait(false)
       })
-      setlogwait(false)
     } catch (error) {
       alert(error.message)
-      setlogwait(false)
     }
   }
 
@@ -70,13 +70,16 @@ function Login() {
                   <button className='btn' onMouseUp={() => setshow(!show)}><BsFillEyeSlashFill /></button>
               }
             </div>
-            <input type="submit" className='submit' value="log in" />
+            {
+              logwait ?
+                <div className='loginwait'><span></span></div> :
+                <input type="submit" className='submit' value="log in" />
+            }
           </form>
           <div className="redirect-register">
             <Link to='/mail_verify'>forget password?</Link>
             <p>don't have account <Link to='/register'>register</Link></p>
           </div>
-          <center><p style={{ color: 'green' }}>Please Wait Until Log In</p></center>
         </div>
         <center><h4 style={{ color: 'red', textTransform: 'capitalize', textAlign: 'center' }}>{err}</h4></center>
       </center>

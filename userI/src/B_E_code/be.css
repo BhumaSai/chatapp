@@ -19,6 +19,12 @@
     text-transform: capitalize;
 }
 
+#loaderinput {
+    height: 30px;
+    width: 80px;
+    background: green;
+}
+
 @keyframes anime {
     from {
         transform: scale(0);
@@ -68,6 +74,44 @@
     padding: 0;
 }
 
+.loginwait {
+    width: 75px;
+    height: 30px;
+    border-radius: 7px;
+    border: 1px solid #000;
+    text-transform: capitalize;
+    font-weight: 600;
+    cursor: no-drop;
+    font-size: 18px;
+    padding: 0;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background: #4b09d8b4;
+}
+
+.loginwait span {
+    height: 20px;
+    width: 20px;
+    border: 5px solid rgb(255, 255, 255);
+    border-radius: 50%;
+    border-top: 5px solid transparent;
+    animation: rotateloader 2s infinite;
+}
+
+@keyframes rotateloader {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+
 .redirect-register {
     display: flex;
     justify-content: space-around;
@@ -79,6 +123,7 @@
     text-decoration: underline;
     font-weight: bolder
 }
+
 
 @media screen and (max-width:1200px) {
     .login-section {
@@ -93,6 +138,8 @@
 @media screen and (max-width:800px) {
     .login-section {
         width: 90%;
+        margin: 2rem 0;
+
     }
 
     .redirect-register a,
@@ -225,6 +272,7 @@
 @media screen and (max-width:800px) {
     .register-section {
         width: 90%;
+        margin: 2rem 0;
     }
 
     #register {

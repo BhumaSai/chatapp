@@ -98,8 +98,10 @@
     background: #fff;
 }
 
+
+
 .chat-users h3 {
-    color: #490bc6;
+    color: #0efff773;
     text-shadow: 1px 1px #000;
     text-transform: capitalize;
     cursor: pointer;
@@ -143,22 +145,22 @@
 }
 
 .online {
-    height: 20px;
-    width: 20px;
+    height: 13px;
+    width: 13px;
     background: rgb(9, 237, 9);
     position: absolute;
     border-radius: 50%;
-    top: 10px;
+    top: 15px;
     left: 7px;
 }
 
 .offline {
-    height: 15px;
-    width: 15px;
+    height: 13px;
+    width: 13px;
     background: rgb(151, 157, 157);
     position: absolute;
     border-radius: 50%;
-    top: 10px;
+    top: 15px;
     left: 7px;
     border: 1px solid #000;
 }
@@ -254,11 +256,12 @@
 }
 
 .details .btn2 {
-    height: 50px;
-    width: 100%;
+    height: 40px;
+    width: 20%;
     display: flex;
     justify-content: right;
-    padding-right: 1rem;
+    padding: 4px;
+    margin-left: 5rem;
 }
 
 .conversation .det-items {
@@ -298,10 +301,13 @@
     font-size: .8rem;
 }
 
-.select .chat-empty-text {
-    font-size: 5rem;
-    text-transform: capitalize;
-    opacity: 0.2;
+.select {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
 }
 
 
@@ -343,8 +349,8 @@
     background: rgba(12, 125, 230, 0.742);
 }
 
-.display {
-    visibility: hidden;
+#display {
+    display: none;
 }
 
 
@@ -363,82 +369,64 @@
         width: 90%;
     }
 
-    .chat-users h3 {
-        display: none;
-    }
+
 }
 
 @media screen and (max-width:600px) {
     .chat-box {
         height: 100%;
         width: 100%;
+        border-radius: 0;
+        margin: 0;
     }
+
 
     .chat-items {
         height: 730px;
+        width: 100%;
+        gap: .1rem;
     }
 
     .chat-area {
         width: 100%;
+        height: 100%;
     }
 
-    .chat-items {
-        flex-direction: column;
+    .user-chat {
+        gap: 2rem;
+    }
+
+    .user-chat-active {
+        gap: 2rem
     }
 
     .chat-users {
         width: 100%;
-        height: 20%;
-        padding: .5rem;
-    }
-
-    .user-chat {
-        background: none;
-        width: 19%;
         height: 100%;
-        display: block;
-        display: flex;
-        float: left;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin-right: 2px;
-        position: relative;
+        padding: 1rem;
     }
 
-    .user-chat-active {
-        width: 19%;
-        height: 100%;
-        display: block;
-        float: left;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        margin-right: 2px;
-        border: 2px solid #099;
-        background: none;
-        position: relative;
-    }
-
-    .online {
-        width: 10px;
-        height: 10px;
-        top: 40%;
-        left: 30%;
-        transform: translate(-10%, -70%);
-    }
-
-    .offline {
-        width: 10px;
-        height: 10px;
-        top: 40%;
-        left: 30%;
-        transform: translate(-10%, -70%);
-    }
-
-    #friend-name {
+    .width {
+        width: 1%;
         display: none;
+    }
+
+    .chat-area {
+        height: 100%;
+        width: 100%;
+    }
+
+    .details .btn2 {
+        margin-left: 3rem;
+    }
+
+    .conversation {
+        width: 100%;
+        height: 20%;
+    }
+
+    .conversation .det {
+        width: 100%;
     }
 
     #friend-img {
@@ -447,6 +435,9 @@
         object-fit: cover;
     }
 
+    #friend-name {
+        font-weight: 900;
+    }
 
     /* .user-chat::after {
         content: '';

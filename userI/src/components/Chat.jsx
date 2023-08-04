@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { io } from 'socket.io-client'
 import { useEffect } from 'react'
 import dateFormat from 'dateformat'
-import { FaEllipsisV } from 'react-icons/fa'
+import { FaArrowAltCircleLeft, FaEllipsisV } from 'react-icons/fa'
 import Userprofile from './Userprofile'
 import { URL } from '../Url'
 
@@ -26,6 +26,9 @@ function Chat() {
   const [toggle, settoggle] = useState(false)
   const [viewProfile, setViewProfile] = useState(false)
   const [online, setOnline] = useState(null)
+
+  const [loadingfriends, setloadingfriends] = useState(false)
+
   // scrolling messages auto
   const scrollMsg = useRef()
   useEffect(() => {
@@ -95,13 +98,17 @@ function Chat() {
   // user friends api
   const friendslist = () => {
     try {
+      setloadingfriends(true)
       URL.get('/user-friends', { headers: { Token: localStorage.getItem("Token") } }).then(res => {
         setfriends(res.data);
+        setloadingfriends(false)
       }).catch(err => {
         alert(err)
+        setloadingfriends(false)
       })
     } catch (error) {
-      throw error
+      setloadingfriends(false)
+      alert(error.message)
     }
   }
 
@@ -135,8 +142,8 @@ function Chat() {
       <center>
         <div className="chat-box">
           <div className="chat-items">
-            <div className="chat-users">
-              <h3>Friends</h3>
+            <div className={pickUser ? "chat-users width" : "chat-users"}>
+              <h3>messages</h3>
               {friends ?
                 Array.isArray(friends) && friends.map(data => {
                   const { _id, image, name } = data
@@ -148,21 +155,24 @@ function Chat() {
                     </div>
                   )
                 })
-                : <h4 style={{ textTransform: 'capitalize' }}> you don't have friends  add friends</h4>
+                : null
               }
-
+              {
+                loadingfriends ? <div className='select'><h3>loading ..........</h3></div> : null
+              }
               {/* message area */}
             </div>
             {pickUser ?
-              <div className="chat-area">
+              <div className={"chat-area"}>
                 <div className="conversation">
                   <div className="det">
+                    <button className='btn' onClick={() => setPickUser()}> <FaArrowAltCircleLeft fontSize={'1.3rem'} /></button>
                     <img src={pickUser.image} className='img' alt="" />
                     <h5>{pickUser.name}</h5>
                   </div>
                   <div className="details">
                     <button className='btn btn2' onClick={togglemenu}> <FaEllipsisV size={"1.3rem"} /></button>
-                    <div className={toggle ? "det-items" : "det-items display"}>
+                    <div className="det-items" id={!toggle ? 'display' : ''}>
                       <button className="btn delbtn" onClick={viewProfilefunc}>view profile</button>
                     </div>
                     <Userprofile pickUser={pickUser} viewProfilefunc={viewProfilefunc} viewProfile={viewProfile} toggle={toggle} />
@@ -189,10 +199,7 @@ function Chat() {
                   <input type="submit" className='msgBtn' id='msgs' hidden />
                   <label htmlFor="msgs"><MdSend fontSize={'1.9rem'} /></label>
                 </form>
-              </div> :
-              <div className='select'>
-                <p className='chat-empty-text'>pick a user to chat</p>
-              </div>
+              </div> : null
             }
           </div>
         </div>

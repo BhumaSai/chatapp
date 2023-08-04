@@ -17,20 +17,17 @@ function Registration() {
   const [confirmpassword, setconfirmpassword] = useState('')
   const [error, seterror] = useState('')
   const [gender, setgender] = useState(null)
-  const [upload, setupload] = useState(false)
+  const [register, setregister] = useState(false)
 
 
   const uploadfile = async (e) => {
-    setupload(true)
     try {
       const file = e.target.files[0];
-
       if (file.size <= 7340032) {
-        return alert('max file size is 10mb please upload below 7Mb image')
+        return alert('max file size is 7mb please upload below 7Mb image')
       } else {
         setfileurl('Image Uploaded')
       }
-      setupload(true)
       // uploading image to cloudinary
       const formData = new FormData()
       formData.append('file', file)
@@ -38,10 +35,8 @@ function Registration() {
       axios.post('https://api.cloudinary.com/v1_1/Bhuma00sai/image/upload', formData).then((response) => {
         setimage(response.data.secure_url);
       })
-      setupload(false)
     } catch (error) {
-      setupload(false)
-      seterror(error);
+      seterror(error.message);
     }
   }
 
@@ -49,12 +44,21 @@ function Registration() {
     e.preventDefault()
     seterror('')
     // sending user inputs to backend
-    URL.post('/register', image ? { name, image, email, password, confirmpassword, gender } : { name, email, password, confirmpassword, gender }).then((res) => {
-      setres(res.data.msg)
-      alert(res.data.msg)
-    }).catch((err) => {
-      seterror(err.response.data.msg);
-    })
+    try {
+      setregister(true)
+      URL.post('/register', image ? { name, image, email, password, confirmpassword, gender } : { name, email, password, confirmpassword, gender }).then((res) => {
+        setres(res.data.msg)
+        alert(res.data.msg)
+        setregister(false)
+      }).catch((err) => {
+        seterror(err.response.data.msg);
+        setregister(false)
+      })
+    } catch (error) {
+
+      alert(error.message)
+      setregister(false)
+    }
 
   }
 
@@ -86,25 +90,24 @@ function Registration() {
             <input type="password" name="password" id="password" placeholder='password' onChange={(e) => setpassword(e.target.value)} required />
             <input type="password" name="confirmpassword" id="confirmpass" placeholder='confirm password' onChange={(e) => setconfirmpassword(e.target.value)} required />
             <div className="gender">
-              <input type="radio" name="male" id="male" value="Male" onClick={(e) => setgender(e.target.value)} />
+              <input type="radio" name="male" id="male" value="Male" onChange={(e) => setgender(e.target.value)} />
               <label htmlFor="male">male</label>
-              <input type="radio" name="male" id="female" value="female" onClick={(e) => setgender(e.target.value)} />
+              <input type="radio" name="male" id="female" value="female" onChange={(e) => setgender(e.target.value)} />
               <label htmlFor="female">female</label>
-              <input type="radio" name="male" id="other" value="other" onClick={(e) => setgender(e.target.value)} />
+              <input type="radio" name="male" id="other" value="other" onChange={(e) => setgender(e.target.value)} />
               <label htmlFor="other">other</label>
             </div>
             <center>
-              <input type="submit" className='submit' value={upload ? 'processing' : 'register'} id='submit' />
+              {
+                register ?
+                  <div className="loginwait" style={{ marginTop: '0', width: '100px', minHeight: '35px' }}><span></span></div> :
+                  <input type="submit" className='submit' value='register' id='submit' />
+              }
             </center>
             <h6 id='error'>{error}</h6>
           </form>
           <h4>already have account <Link to='/login'>log in</Link></h4>
         </div >
-        {
-          upload ? <h5>please wait a minute</h5> : null
-        }
-        <center><p style={{ color: 'green' }}>Please Wait Until Register Process Complete</p></center>
-
       </center >
     </>
   )

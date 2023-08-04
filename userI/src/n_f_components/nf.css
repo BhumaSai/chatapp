@@ -224,6 +224,10 @@ ul li a {
     .login {
         visibility: visible;
     }
+
+    .logo-title h2 {
+        display: none;
+    }
 }
 
 /* loader css */

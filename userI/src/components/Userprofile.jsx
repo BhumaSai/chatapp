@@ -21,4 +21,4 @@ function Userprofile({ pickUser, viewProfile, viewProfilefunc }) {
     )
 }
 
-export default Userprofile
+export default React.memo(Userprofile);
