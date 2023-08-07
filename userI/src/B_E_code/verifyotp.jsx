@@ -8,16 +8,23 @@ function Verifyotp() {
     const [otp, setotp] = useState('')
     const [err, seterr] = useState('')
     const [verified, setverified] = useState('')
-
+    const [wait, setwait] = useState(false)
 
     const otpSubmit = (e) => {
         e.preventDefault()
-        URL.post('/otp-verification', { email, otp }).then((res) => {
-            alert(res.data.msg)
-            setverified(res.data.msg)
-        }).catch((err) => {
-            seterr(err.response.data.msg);
-        })
+        try {
+            setwait(true)
+            URL.post('/otp-verification', { email, otp }).then((res) => {
+                alert(res.data.msg)
+                setverified(res.data.msg)
+                setwait(false)
+            }).catch((err) => {
+                setwait(false)
+                seterr(err.response.data.msg);
+            })
+        } catch (error) {
+            alert(error.message)
+        }
     }
     if (verified) {
         return <Navigate to='/login' />
@@ -30,7 +37,11 @@ function Verifyotp() {
                 <form onSubmit={otpSubmit} className='form'>
                     <input type="email" name="email" id="email-verify" required placeholder='enter registered email' value={email} onChange={(e) => setemail(e.target.value)} />
                     <input type="number" name="otp" id="verify" placeholder='Enter otp' required value={otp} onChange={(e) => setotp(e.target.value)} />
-                    <input type="submit" className='submit' value="confirm" />
+                    {
+                        wait ?
+                            <div className='loginwait'><span></span></div> :
+                            <input type="submit" className='submit' value="confirm" />
+                    }
                 </form>
                 <h3 style={{ color: 'red' }}>{err}</h3><br />
             </center>

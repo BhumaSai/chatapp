@@ -116,6 +116,7 @@ function Chat() {
   const togglemenu = (e) => {
     e.preventDefault()
     settoggle(!toggle)
+    console.log('togglemenu');
   }
   // profile view function
   const viewProfilefunc = (e) => {

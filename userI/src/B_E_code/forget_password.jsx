@@ -8,16 +8,24 @@ function Emailverify() {
   const [email, setemail] = useState('')
   const [msg, setmsg] = useState('')
   const [err, seterr] = useState('')
+  const [processing, setprocessing] = useState(false)
 
   const resetpass = (e) => {
     e.preventDefault()
     setmsg('')
     seterr('')
-    URL.post('/forget_password_verification', { email }).then(response => {
-      setmsg(response.data.msg);
-    }).catch(err => {
-      seterr(err.response.data.msg);
-    })
+    try {
+      setprocessing(true)
+      URL.post('/forget_password_verification', { email }).then(response => {
+        setmsg(response.data.msg);
+        setprocessing(false)
+      }).catch(err => {
+        seterr(err.response.data.msg);
+        setprocessing(false)
+      })
+    } catch (error) {
+      alert(error.message)
+    }
   }
 
   if (localStorage.Token) {
@@ -29,7 +37,11 @@ function Emailverify() {
       <div className="forget-pass">
         <form onSubmit={resetpass} className='reset-pass'>
           <input type="email" name="email" id="r-email" placeholder='enter registered email ' value={email} onChange={e => setemail(e.target.value)} required />
-          <input type="submit" className='submit' id='reset-btn' value="send" />
+          {
+            processing ?
+              <div className='loginwait' style={{ width: '100%', margin: '0' }}><span></span></div> :
+              <input type="submit" className='submit' id='reset-btn' value="send" />
+          }
         </form>
         <center><h3 style={{ color: 'green' }}>{msg}</h3></center>
         <center><h3 style={{ color: 'red' }}>{err}</h3></center>

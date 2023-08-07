@@ -30,7 +30,7 @@ module.exports.forgetpassword = async (req, res) => {
             from: process.env.E_Mail,
             to: checkUser.email,
             subject: "Reset Password",
-            text: `http://localhost:3000/reset_password?id=${checkUser._id}&token=${resetotp}`
+            text: `https://feelfreetochat.netlify.app/#/reset_password?id=${checkUser._id}&token=${resetotp}`
         })
 
         return res.status(202).json({

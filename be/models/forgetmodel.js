@@ -14,10 +14,10 @@ const forgetpassword = new mongoose.Schema({
         type: String,
         required: true
     },
-    expires: {
+    expireAt: {
         type: Date,
-        expires: 300,
-        date: Date.now()
+        expires: 600,
+
     }
 })
 

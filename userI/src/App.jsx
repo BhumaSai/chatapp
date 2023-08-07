@@ -34,7 +34,7 @@ function App() {
           <Route path='/verify' element={<Suspense fallback={<Loader />}><Verifyotp /></Suspense>} />
           <Route path='/my-profile' element={<Suspense fallback={<Loader />}><Myprofile /></Suspense>} />
           <Route path='/mail_verify' element={<Emailverify />} />
-          <Route path='/reset_password' element={<Suspense fallback={<Loader />}><ResetPassword /></Suspense>} />
+          <Route path='/reset_password?' element={<Suspense fallback={<Loader />}><ResetPassword /></Suspense>} />
           <Route path='/notifications' element={<Suspense fallback={<Loader />}><Notification /></Suspense>} />
           <Route path='/device_error' element={<Device />} />
           <Route path='*' element={<Error />} />
