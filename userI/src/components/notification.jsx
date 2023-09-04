@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react'
 import './components.css'
 import { Navigate } from 'react-router-dom'
-import Loader from '../n_f_components/loader'
 import { FaVenus } from 'react-icons/fa'
 import { BsGenderMale } from 'react-icons/bs'
 import { FaRegCircleXmark } from 'react-icons/fa6'
@@ -51,7 +50,7 @@ function Notification() {
         setResponse('')
     }, 3000);
 
-    if (!localStorage) {
+    if (!localStorage.getItem("Token")) {
         return <Navigate to='/login' />
     }
 
@@ -76,7 +75,7 @@ function Notification() {
                                         </div>
                                     </div>
                                 )
-                            }) : <Loader />
+                            }) : null
 
                     }
                     {

@@ -23,7 +23,7 @@ const login = async function (req, res) {
         }
         return res.status(200).json({
             token: token,
-            msg: 'authentification error please refresh the pagelo',
+            msg: 'authentification error please refresh the page',
             user
         })
     } catch (error) {
