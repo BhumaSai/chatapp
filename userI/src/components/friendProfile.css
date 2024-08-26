@@ -1,0 +1,299 @@
+.user-Friend-Profile {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(14, 45, 62, 0.775);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.visible {
+    display: none;
+}
+
+.friend-Profile {
+    width: 50%;
+    height: 50%;
+    background: rgba(7, 201, 255, 0.402);
+    opacity: 1;
+    border-radius: 1.5rem;
+    position: absolute;
+    margin-bottom: 5rem;
+    padding: 1rem;
+    backdrop-filter: blur(20px);
+}
+
+.friend-details {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.friend-details img {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: -2px -0px 4px 7px #00000070;
+}
+
+.friend-details .name,
+.friend-details .email,
+.friend-details span {
+    text-align: left;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    height: auto;
+    width: 100%;
+    display: block;
+    padding: .5rem;
+    border-radius: .5rem;
+    background: #00000058;
+    color: #fff;
+}
+
+.profilebtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: #000000;
+}
+
+@media screen and (max-width:600px) {
+    .friend-Profile {
+        width: 97%;
+    }
+
+    .friend-details .name,
+    .friend-details .email,
+    .friend-details span {
+        text-align: left;
+        width: 100%;
+        margin-left: 1rem;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+}
+
+/* home page section */
+
+.hero-section-container {
+    min-height: 40vh;
+    width: 100%;
+}
+
+.hero-section {
+    height: 600px;
+    width: 100%;
+}
+
+.hero-section .auth-btn img {
+    height: 99%;
+    width: 100%;
+    object-fit: cover;
+    filter: blur(5px);
+}
+
+.hero-section .auth-btn {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.auth-btn .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    backdrop-filter: blur(3px);
+}
+
+.content p {
+    width: 50%;
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+    font-weight: 900;
+}
+
+.authbuttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.authbuttons a {
+    width: 150px;
+    height: auto;
+    font-size: 1.5rem;
+    text-transform: capitalize;
+    padding: 1rem;
+    font-weight: 700;
+    border-radius: 1.5rem;
+    background: #099;
+    text-decoration: none;
+    text-align: center;
+    color: #000;
+}
+
+.authbuttons a:hover {
+    background: rgba(0, 153, 153, 0.257);
+    color: #000;
+}
+
+.hero-section-container .hero-content {
+    width: 100%;
+    height: auto;
+}
+
+.hero-content .image {
+    width: 100%;
+    height: 600px;
+    position: relative;
+}
+
+.hero-content .image img {
+    width: 100%;
+    height: 99%;
+    object-fit: cover;
+    filter: blur(5px);
+}
+
+.image p {
+    min-width: 10%;
+    border-radius: 1.5rem;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    text-transform: capitalize;
+    background: #000000b2;
+    font-weight: 800;
+    padding: 1rem;
+    color: #fff
+}
+
+.image p span {
+    font-size: 2.5rem;
+    text-transform: capitalize;
+    font-weight: 900;
+    color: #099;
+    text-shadow: 2px 2px #000;
+}
+
+.hero-content {
+    width: 100%;
+}
+
+.hero-text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 200px;
+    padding: .5rem;
+}
+
+.hero-text-center .text {
+    background: rgba(20, 132, 132, 0.662);
+    text-align: left;
+    width: 80%;
+    font-weight: 900;
+    line-height: 20px;
+    padding: .5rem;
+}
+
+.hero-content .note-points {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.note-points ul {
+    width: 90%;
+    padding: 2rem;
+}
+
+.note-points ul li {
+    list-style-type: decimal;
+    color: #000;
+    width: 100%;
+    min-height: 9px;
+    text-transform: capitalize;
+    font-weight: 700;
+    padding: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.note-points ul li:nth-child(5) {
+    font-weight: 900;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+
+@media screen and (max-width:600px) {
+    .hero-text-center {
+        width: 100%;
+    }
+
+    .hero-text-center .text {
+        width: 90%;
+        height: auto;
+    }
+
+    .hero-text-center .text p {
+        font-weight: 800;
+        line-height: 1.5rem;
+    }
+
+    .authbuttons a {
+        min-width: 75px;
+        font-size: 1rem;
+    }
+
+    .hero-content {
+        width: 100%;
+    }
+
+    .image p {
+        font-size: 1.5rem;
+    }
+
+    .image p span {
+        font-size: 2rem;
+    }
+
+    .auth-btn p {
+        width: 90%;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .hero-content img {
+        width: 100%;
+        height: 500px;
+    }
+
+}
+
+/* home page section */
