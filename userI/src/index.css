@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Kaushan+Script&family=Pacifico&family=Roboto&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Abril Fatface', cursive;
+  font-family: 'Kaushan Script', cursive;
+  font-family: 'Pacifico', cursive;
+  font-family: 'Roboto', sans-serif;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  max-width: 100vw;
+}
+
+.submit {
+  background: #4a09d8;
+  color: #ffffff;
+}
+
+.submit:hover {
+  background: #4b09d8c1;
+  color: #ffffff;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border: 1px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0000008c;
+  border-radius: 7rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #878585;
+}
+
+button,
+a {
+  cursor: pointer;
+}
