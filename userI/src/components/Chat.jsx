@@ -156,7 +156,7 @@ function Chat() {
                     </div>
                   )
                 })
-                : null
+                : <h5>empty friendlist</h5>
               }
               {
                 loadingfriends ? <div className='select'><h3>loading ..........</h3></div> : null

@@ -39,7 +39,6 @@ function Home() {
           <div className="note-points">
             <h2>Note:-</h2>
             <ul>
-              <li>Only,Your chat conversations will be deleted regularaly,why because this application isn't providing any data storage.</li>
               <li>your registrastion details doesn't delete it will be stored in our data base.</li>
               <li>this application provides you to chat with selected person,and group chat currently not available it may add in future.</li>
               <li>your chat conversations didn't secure so, please make your conversation appropriate.</li>
