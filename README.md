@@ -13,21 +13,22 @@ I applied **web penetration testing techniques** to this project and identified 
 
 ---
 ## Project Structure
-
--chatapp/
--├── client/             # React frontend
--│   ├── public/
--│   └── src/
--│       ├── components/
--│       ├── pages/
--│       └── App.js
--├── server/             # Express backend
--│   ├── controllers/
--│   ├── models/
--│   ├── routes/
--│   └── server.js
--├── package.json
--└── README.md
+<pre>
+chatapp/
+├── client/             # React frontend
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       └── App.js
+├── server/             # Express backend
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   └── server.js
+├── package.json
+└── README.md
+</pre>
 
 ---
 
