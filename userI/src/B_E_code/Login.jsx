@@ -11,7 +11,7 @@ const Nav = React.lazy(() => import('../n_f_components/Nav'))
 function Login() {
   const [show, setshow] = useState(false)
   const [err, seterr] = useState("")
-  const [log, setlog] = useState(null)
+  const [log, setlog] = useState(0)
   const [login, setLogin] = useState({
     email: '',
     password: ''
@@ -30,13 +30,18 @@ function Login() {
     try {
       setlogwait(true)
       URL.post('/login', login).then(res => {
-        setlog(res.data.msg)
-        localStorage.setItem('Token', res.data.token)
-        localStorage.setItem('image', res.data.user.image);
-        localStorage.setItem('UserID', res.data.user._id)
-        localStorage.setItem('name', res.data.user.name)
+        if (res.data.user.verified) {
+          localStorage.setItem('Token', res.data.token)
+          localStorage.setItem('image', res.data.user.image);
+          localStorage.setItem('UserID', res.data.user._id)
+          localStorage.setItem('name', res.data.user.name)
+          setlog(200)
+        } else {
+          setlog(401)
+        }
         setlogwait(false)
       }).catch(err => {
+        console.log(err)
         seterr(err.response.data.msg);
         setlogwait(false)
       })
@@ -46,9 +51,10 @@ function Login() {
   }
 
 
-
-  if (log) {
+  if (log === 200) {
     return <Navigate to='/' />
+  } else if (log === 401) {
+    return <Navigate to="/verify" />
   }
   if (localStorage.getItem("Token")) {
     return <Navigate to='/' />

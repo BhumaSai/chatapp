@@ -61,7 +61,7 @@ function Registration() {
     }
 
   }
-
+  console.log(res)
   if (res) {
     return <Navigate to='/verify' />
   }
