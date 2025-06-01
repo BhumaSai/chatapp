@@ -41,7 +41,6 @@ function Login() {
         }
         setlogwait(false)
       }).catch(err => {
-        console.log(err)
         seterr(err.response.data.msg);
         setlogwait(false)
       })
