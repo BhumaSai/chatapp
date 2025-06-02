@@ -66,9 +66,9 @@ function Login() {
         <div className="login-section">
           <h2 className='main-text'>log in</h2>
           <form className="log-in-form" autoComplete='off' onSubmit={loginToChatApp}>
-            <input type="email" name="email" id="user-email" placeholder='enter registerd @gmail ' value={login.email} onChange={loginform} autoComplete='off' />
+            <input type="email" name="email" id="user-email" placeholder='enter registerd @gmail ' value={login.email} onChange={loginform} autoComplete='off' required />
             <div className="password-show">
-              <input type={show ? 'text' : 'password'} name="password" id="user-password" placeholder='enter your password' value={login.password} onChange={loginform} />
+              <input type={show ? 'text' : 'password'} name="password" id="user-password" placeholder='enter your password' value={login.password} onChange={loginform} required />
               {
                 show ?
                   <button className='btn' onMouseUp={() => setshow(!show)}><BsFillEyeFill /></button> :
@@ -88,10 +88,6 @@ function Login() {
         </div>
         <center><h4 style={{ color: 'red', textTransform: 'capitalize', textAlign: 'center' }}>{err}</h4></center>
       </center>
-      {
-        logwait ?
-          <Loader /> : null
-      }
     </>
   )
 }

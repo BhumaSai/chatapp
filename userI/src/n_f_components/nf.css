@@ -253,23 +253,12 @@ ul li a {
     font-size: .5rem;
 }
 
-.spinner {
-    padding: 5px;
-    height: 50px;
-    width: 50px;
-    border: 7px dotted rgba(123, 0, 255, 0.731);
-    border-radius: 50%;
-    animation: spinner 3s linear infinite
-}
-
-@keyframes spinner {
-    from {
-        rotate: 0;
-    }
-
-    to {
-        rotate: 360deg;
-    }
+.loader p {
+    font-size: 1.5rem;
+    color: aqua;
+    font-weight: 600;
+    text-shadow: 0 0 1px black;
+    letter-spacing: 3px;
 }
 
 /* device error */
