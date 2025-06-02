@@ -3,7 +3,6 @@ import { Link, Navigate } from 'react-router-dom'
 import './be.css'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 import { URL } from '../Url'
-import Loader from '../n_f_components/loader'
 
 const Nav = React.lazy(() => import('../n_f_components/Nav'))
 
