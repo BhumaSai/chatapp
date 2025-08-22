@@ -5,9 +5,29 @@ const cookie = require("cookie");
 
 const login = async function (req, res) {
   try {
-    const { email, password } = await req.body;
-    const user = await User.findOne({ email });
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        status: false,
+        msg: "Email and password are required",
+      });
+    }
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
+      return res.status(400).json({
+        status: false,
+        msg: "Invalid credentials",
+      });
+    }
+    if (!user.verified) {
+      return res.status(403).json({
+        status: false,
+        msg: "Please verify your email before logging in.",
+      });
+    }
+    const pass = await bcrypt.compare(password, user.password);
+    if (!pass) {
       return res.status(400).json({
         status: false,
         msg: "Invalid credentials",
@@ -16,22 +36,18 @@ const login = async function (req, res) {
     const token = jwt.sign({ id: user._id }, process.env.jwtPassword, {
       expiresIn: "30d",
     });
-    const pass = await bcrypt.compareSync(password, user.password);
-    if (!pass) {
-      return res.status(400).json({
-        staus: false,
-        msg: "invalid credentials",
-      });
-    }
+    // Remove password from user object before sending
+    const userObj = user.toObject();
+    delete userObj.password;
     return res.status(200).json({
       token: token,
-      msg: "successfully login",
-      user,
+      msg: "Successfully logged in",
+      user: userObj,
     });
   } catch (error) {
     return res.status(500).json({
       status: false,
-      msg: "server error",
+      msg: "Server error",
     });
   }
 };

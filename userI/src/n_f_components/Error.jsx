@@ -8,7 +8,7 @@ function Error() {
       <center>
         <div className='error'>
           <span>🧐</span>
-          <h3>something went wrong back to the home page</h3><br />
+          <h3>something went wrong back to the home </h3><br />
           <Link to='/' className='submit'>home</Link>
         </div>
       </center>

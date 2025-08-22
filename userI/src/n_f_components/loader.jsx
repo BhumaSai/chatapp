@@ -2,12 +2,10 @@ import './nf.css'
 
 function Loader() {
     return (
-        <>
-            <div className='loader'>
-                <p>Loading...</p>
-            </div>
-        </>
-    )
+        <div className="loader-spinner">
+            <div className="spinner"></div>
+        </div>
+    );
 }
 
 export default Loader;

@@ -50,7 +50,9 @@ function Myprofile() {
           data && !Loading && !error ?
             <div className="my-profile-section">
               <div className="my-profile">
-                <img src={data.image} alt="user" />
+                <div className='circle'>
+                  <p className='letter'>{data.name[0].toUpperCase()}</p>
+                </div>
                 <div className="my-data">
                   <h3>Name: <span>{data.name}</span></h3><hr /><br />
                   <h3>Mail-ID : <span>{data.email}</span></h3><hr /><br />
@@ -66,10 +68,12 @@ function Myprofile() {
                 {
                   Array.isArray(friends) && data && !Loading && !error && friends ?
                     friends.map(data => {
-                      const { _id, name, image } = data;
+                      const { _id, name } = data;
                       return (
                         <div className='all-friends' key={_id}>
-                          <img src={image} alt={name} />
+                          <div className='circle'>
+                            <p className='letter' style={{ color: "white", textAlign: "center" }}>{name[0].toUpperCase()}</p>
+                          </div>
                           <p>{name}</p>
                           <button className='btn trashbtn' onClick={() => {
                             setdel(!del)

@@ -5,6 +5,12 @@
     padding: 1rem;
 }
 
+.user-section-container h3 {
+    color: rgba(11, 193, 206, 0.808);
+    text-shadow: -2px 2px #000000dc;
+    font-size: 2rem;
+}
+
 .user-section {
     width: 100%;
     min-height: 100%;
@@ -73,20 +79,27 @@
 /* chat section */
 
 .chat-box {
-    width: 70%;
+    min-height: 900px;
+    height: 90dvh;
+    width: 100%;
     padding: 1rem;
-    height: 100%;
-    margin-top: .5rem;
-    background: rgba(14, 243, 255, 0.358);
-    border-radius: 2rem;
-    box-shadow: 0px 0px 0px 0px 5px #00000035;
+    background: rgba(3, 119, 119, 0.486);
+    position: inherit;
 }
 
 .chat-items {
     width: 100%;
-    height: 650px;
+    height: 100%;
     display: flex;
     gap: 1rem;
+}
+
+.message-title {
+    color: rgba(11, 193, 206, 0.808);
+    text-shadow: -2px 2px #000000dc;
+    font-size: 2rem;
+    text-transform: capitalize;
+    padding: 7px;
 }
 
 .chat-users {
@@ -98,18 +111,22 @@
     background: #fff;
 }
 
+.chat-users-full {
+    width: 100%;
+    height: 100%;
+    padding: .5rem .2rem;
+    border-radius: 1rem;
+    border: 1px solid #000;
+    background: #fff;
+}
 
 
 .chat-users h3 {
-    color: #0efff773;
+    color: #0efff7bb;
     text-shadow: 1px 1px #000;
     text-transform: capitalize;
     cursor: pointer;
     margin-bottom: .5rem;
-}
-
-.chat-users h3:hover {
-    text-decoration: underline;
 }
 
 .user-chat {
@@ -193,7 +210,7 @@
 
 
 .chat-area {
-    width: 75%;
+    width: 85%;
     height: 100%;
     border: 1px solid #000;
     border-radius: 1rem;
@@ -362,38 +379,32 @@
 
     .chat-items {
         width: 100%;
-        height: 600px;
     }
 
     .chat-box {
-        width: 90%;
+        width: 100%;
     }
 
 
 }
 
-@media screen and (max-width:600px) {
-    .chat-box {
-        height: 100%;
-        width: 100%;
-        border-radius: 0;
-        margin: 0;
-    }
+@media screen and (max-width:750px) {
 
+    .chat-box {
+        height: 91.5vh;
+        padding: 0rem;
+    }
 
     .chat-items {
-        height: 730px;
+        height: 970px;
         width: 100%;
         gap: .1rem;
-    }
-
-    .chat-area {
-        width: 100%;
-        height: 100%;
+        border-radius: none;
     }
 
     .user-chat {
         gap: 2rem;
+        border-radius: 0;
     }
 
     .user-chat-active {
@@ -403,7 +414,6 @@
     .chat-users {
         width: 100%;
         height: 100%;
-        padding: 1rem;
     }
 
     .width {
@@ -414,6 +424,7 @@
     .chat-area {
         height: 100%;
         width: 100%;
+        border-radius: 0;
     }
 
     .details .btn2 {
@@ -439,16 +450,6 @@
         font-weight: 900;
     }
 
-    /* .user-chat::after {
-        content: '';
-        width: 10px;
-        height: 10px;
-        position: absolute;
-        left: 10px;
-        top: 5px;
-        background: green;
-        border-radius: 50%;
-    } */
     .messages p {
         font-size: .7rem;
         max-width: 50%;
@@ -493,10 +494,9 @@
 }
 
 .request-section h3 {
-    color: rgb(11, 193, 206);
-    text-shadow: -2px 2px #000;
+    color: rgba(11, 193, 206, 0.808);
+    text-shadow: -2px 2px #000000dc;
     font-size: 2rem;
-    text-decoration: underline;
 }
 
 .request-container {

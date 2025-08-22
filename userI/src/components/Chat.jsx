@@ -71,7 +71,7 @@ function Chat() {
     e.preventDefault()
     if (message !== "") {
       setmessage('')
-      const savemsg = { senderID: owner, receiverID: pickUser._id, message, updatedAt: new Date() }
+      const savemsg = { senderID: owner, receiverID: pickUser._id, message }
       URL.post('/add-messages', savemsg).catch(err => {
         alert(err)
       })
@@ -143,14 +143,16 @@ function Chat() {
       <center>
         <div className="chat-box">
           <div className="chat-items">
-            <div className={pickUser ? "chat-users width" : "chat-users"}>
-              <h3>messages</h3>
+            <div className={pickUser ? "chat-users" : "chat-users-full"}>
+              <h3 className='message-title'>messages</h3>
               {friends ?
                 Array.isArray(friends) && friends.map(data => {
-                  const { _id, image, name } = data
+                  const { _id, name } = data
                   return (
                     <div key={_id} className={active._id === _id ? "user-chat-active" : "user-chat"} onClick={() => selectUser(data)}>
-                      <img src={image} className='img' alt="" id='friend-img' />
+                      <div className='circle'>
+                        <p className='letter'>{name[0].toUpperCase()}</p>
+                      </div>
                       <h5 id='friend-name'>{name}</h5>
                       <span className={Array.isArray(online) && online.some(data => { return data.User === _id }) ? 'online' : 'offline'}></span>
                     </div>
@@ -168,7 +170,9 @@ function Chat() {
                 <div className="conversation">
                   <div className="det">
                     <button className='btn' onClick={() => setPickUser()}> <FaArrowAltCircleLeft fontSize={'1.3rem'} /></button>
-                    <img src={pickUser.image} className='img' alt="" />
+                    <div className='circle' style={{ width: "40px", height: "40px" }}>
+                      <p className='letter'>{pickUser.name[0].toUpperCase()}</p>
+                    </div>
                     <h5>{pickUser.name}</h5>
                   </div>
                   <div className="details">

@@ -241,24 +241,31 @@ ul li a {
 }
 
 /* loader css */
-.loader {
-    height: 100%;
-    width: 100%;
-    position: fixed;
+
+.loader-spinner {
     display: flex;
     justify-content: center;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    font-size: .5rem;
+    height: 100vh;
 }
 
-.loader p {
-    font-size: 1.5rem;
-    color: aqua;
-    font-weight: 600;
-    text-shadow: 0 0 1px black;
-    letter-spacing: 2px;
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px solid #e0e0e0;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* device error */
@@ -313,6 +320,10 @@ ul li a {
     padding: 2rem;
     display: flex;
     justify-content: center;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
 }
 
 .footer-items {
@@ -338,7 +349,8 @@ ul li a {
 
 .main-text p {
     width: 100%;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    text-transform: lowercase;
 }
 
 .footer-links {
@@ -357,6 +369,13 @@ ul li a {
 }
 
 @media screen and (max-width:1000px) {
+    .footer-section {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+    }
+
     .main-text h3 {
         font-size: 1.5rem;
     }
@@ -366,7 +385,7 @@ ul li a {
     }
 
     .main-text p {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 }
 

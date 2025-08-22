@@ -43,7 +43,7 @@ function Users() {
     <>
       <Suspense fallback={<center>...</center>}><Nav /></Suspense>
       <div className="user-section-container">
-        <center><h2>USERS</h2></center>
+        <center><h3>USERS</h3></center>
         <div className="user-section">
           {data ?
             Array.isArray(data) && data?.map((data) => {
