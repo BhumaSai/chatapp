@@ -80,9 +80,9 @@ module.exports.forgetpassword = async (req, res) => {
 
 module.exports.resetpassword = async (req, res) => {
   try {
-    const { password, confirmpass, token, id } = req.body;
+    const { password, confirmpass } = req.body;
     // input not found error
-    if (!password || !confirmpass || !token || !id) {
+    if (!password || !confirmpass) {
       return res.status(400).json({
         status: false,
         msg: "Please fill all details including token and user id",
