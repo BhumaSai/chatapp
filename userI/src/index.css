@@ -10,6 +10,7 @@
   font-family: 'Pacifico', cursive;
   font-family: 'Roboto', sans-serif;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {

@@ -1,6 +1,7 @@
 const forgetpassword = require("../models/forgetmodel");
 const { OTP, transporter } = require("./otp");
 const User = require("../models/registermodel");
+const { request } = require("express");
 const dotenv = require("dotenv").config();
 const rateLimit = {};
 const PASSWORD_REGEX =
@@ -48,7 +49,9 @@ module.exports.forgetpassword = async (req, res) => {
       resetotp,
     });
     await resetData.save();
-
+    console.log(
+      `http://localhost:3000/#/reset_password?id=${checkUser._id}&token=${resetotp}`
+    );
     const mailTransporter = transporter();
     mailTransporter.sendMail(
       {
@@ -81,6 +84,7 @@ module.exports.forgetpassword = async (req, res) => {
 module.exports.resetpassword = async (req, res) => {
   try {
     const { password, confirmpass } = req.body;
+
     // input not found error
     if (!password || !confirmpass) {
       return res.status(400).json({
@@ -99,9 +103,9 @@ module.exports.resetpassword = async (req, res) => {
         msg: "Password & confirm password must be same ",
       });
     }
-    const user = await User.findOne({ _id: id });
+    const user = await User.findById(req.user);
     if (!user) {
-      return res.json({
+      return res.status(404).json({
         msg: "user not found",
       });
     }
@@ -112,15 +116,6 @@ module.exports.resetpassword = async (req, res) => {
         .status(400)
         .json({ msg: "No reset request found or token expired." });
     }
-    const isValidToken = await resetRecord.comparetoken(token);
-    if (!isValidToken) {
-      return res.status(401).json({ msg: "Invalid or expired token." });
-    }
-    // Hash password before saving
-    const bcrypt = require("bcryptjs");
-    const hashedPassword = await bcrypt.hash(password.trim(), 10);
-    user.password = hashedPassword;
-    await user.save();
     try {
       await forgetpassword.findOneAndDelete({ userID: user._id });
     } catch (err) {

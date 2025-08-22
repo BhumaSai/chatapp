@@ -79,7 +79,7 @@
 /* chat section */
 
 .chat-box {
-    min-height: 900px;
+    min-height: 700px;
     height: 90dvh;
     width: 100%;
     padding: 1rem;
@@ -389,6 +389,9 @@
 }
 
 @media screen and (max-width:750px) {
+    .width {
+        width: 0%;
+    }
 
     .chat-box {
         height: 91.5vh;

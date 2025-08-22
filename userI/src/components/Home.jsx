@@ -26,16 +26,16 @@ function Home() {
               </div>
             </div>
           </div>
-          : null
+          :
+          <div className="hero-content">
+            {
+              localStorage.getItem('Token') ? <div className="image">
+                <img src={heroimage2} alt='hero-pic' />
+                <p>welcome  <span>{localStorage.getItem('name')}</span></p>
+              </div> : null
+            }
+          </div>
       }
-      <div className="hero-content">
-        {
-          localStorage.getItem('Token') ? <div className="image">
-            <img src={heroimage2} alt='hero-pic' />
-            <p>welcome  <span>{localStorage.getItem('name')}</span></p>
-          </div> : null
-        }
-      </div>
       <Footer />
     </>
   )

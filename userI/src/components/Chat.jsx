@@ -143,7 +143,7 @@ function Chat() {
       <center>
         <div className="chat-box">
           <div className="chat-items">
-            <div className={pickUser ? "chat-users" : "chat-users-full"}>
+            <div className={pickUser ? "chat-users width" : "chat-users-full"}>
               <h3 className='message-title'>messages</h3>
               {friends ?
                 Array.isArray(friends) && friends.map(data => {

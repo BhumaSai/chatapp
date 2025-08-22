@@ -312,7 +312,7 @@ ul li a {
 
 /* footer */
 .footer-section {
-    min-height: 75px;
+    height: auto;
     width: 100%;
     background: #000000;
     color: #fff;
@@ -320,10 +320,10 @@ ul li a {
     padding: 2rem;
     display: flex;
     justify-content: center;
-    position: relative;
-    left: 0;
+    position: fixed;
     bottom: 0;
-    z-index: 100;
+    left: 0;
+
 }
 
 .footer-items {
@@ -369,12 +369,6 @@ ul li a {
 }
 
 @media screen and (max-width:1000px) {
-    .footer-section {
-        position: relative;
-        left: 0;
-        bottom: 0;
-        z-index: 100;
-    }
 
     .main-text h3 {
         font-size: 1.5rem;

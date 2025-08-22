@@ -23,6 +23,7 @@ function ResetPassword() {
         try {
             setwait(true)
             URL.post(`/reset_password${location.search}`, { password, confirmpass }).then((res) => {
+                console.log(res)
                 setmsg(res.data)
                 alert(res.data.msg)
                 setwait(false)
