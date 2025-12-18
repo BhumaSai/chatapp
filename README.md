@@ -2,6 +2,8 @@
 
 A modern, secure one-on-one chat application built with React (frontend) and Node.js/Express/MongoDB (backend).
 
+**[Click here to view the live application](https://feelfreetochat.netlify.app/)**
+
 ## Features
 - One-on-one real-time chat
 - User authentication and registration
