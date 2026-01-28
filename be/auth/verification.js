@@ -31,9 +31,9 @@ const verification = async (req, res) => {
       userID: userexist._id,
     });
     if (!tokenRecord) {
-      return res.status(401).json({
+      return res.status(400).json({
         status: false,
-        msg: "No OTP found for this user. Please request a new OTP.",
+        msg: "Verification session expired. Please register again.",
       });
     }
     const now = Date.now();
@@ -44,6 +44,9 @@ const verification = async (req, res) => {
     if (now - createdAt > expireTime) {
       // Remove expired OTP and send new one
       await verificationUser.deleteOne({ _id: tokenRecord._id });
+      // Reset User expiration time
+      await User.findByIdAndUpdate(userexist._id, { createdAt: new Date() });
+
       // Generate and save new OTP
       const { OTP, transporter } = require("./otp");
       const newOtp = OTP();
@@ -53,19 +56,16 @@ const verification = async (req, res) => {
         email: normalizedEmail,
       });
       await newVerification.save();
-      try {
-        await transporter().sendMail({
-          from: process.env.E_Mail,
-          to: normalizedEmail,
-          subject: "OTP verification",
-          html: `<h2>OTP</h2></br>${newOtp}</p>`,
-        });
-      } catch (mailErr) {
-        return res.status(500).json({
-          status: false,
-          msg: "OTP expired. Failed to send new OTP email.",
-        });
-      }
+      // Send new OTP email asynchronously
+      transporter().sendMail({
+        from: process.env.E_Mail,
+        to: normalizedEmail,
+        subject: "OTP verification",
+        html: `<h2>OTP</h2></br>${newOtp}</p>`,
+      }).catch(err => {
+        console.error("Delayed Resend Email Error:", err.message);
+      });
+
       return res.status(440).json({
         status: false,
         msg: "OTP expired. A new OTP has been sent to your email.",

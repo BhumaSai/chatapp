@@ -22,10 +22,14 @@ const User = new mongoose.Schema(
     },
     // confirmpassword removed: should not be stored in DB
     image: {
+      type: Buffer,
+      required: false,
+      default: null,
+    },
+    imageType: {
       type: String,
       required: false,
-      default:
-        "https://res.cloudinary.com/bhuma00sai/image/upload/v1690276911/fnuexdv9nsdsbw1tyfpo.png",
+      default: null,
     },
     friends: {
       type: Array,
@@ -41,6 +45,31 @@ const User = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: function (doc, ret) {
+        if (ret.image && ret.imageType) {
+          // Check if it's already a string or a Buffer
+          const buffer = Buffer.isBuffer(ret.image) ? ret.image : (ret.image.buffer || ret.image);
+          if (Buffer.isBuffer(buffer)) {
+            ret.image = `data:${ret.imageType};base64,${buffer.toString('base64')}`;
+          }
+        }
+        delete ret.password;
+        return ret;
+      }
+    },
+    toObject: {
+      transform: function (doc, ret) {
+        if (ret.image && ret.imageType) {
+          const buffer = Buffer.isBuffer(ret.image) ? ret.image : (ret.image.buffer || ret.image);
+          if (Buffer.isBuffer(buffer)) {
+            ret.image = `data:${ret.imageType};base64,${buffer.toString('base64')}`;
+          }
+        }
+        delete ret.password;
+        return ret;
+      }
+    }
   }
 );
 
@@ -59,5 +88,8 @@ User.pre("save", async function (next) {
 User.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
+
+// Add TTL index to automatically delete unverified users after 10 minutes
+User.index({ createdAt: 1 }, { expireAfterSeconds: 600, partialFilterExpression: { verified: false } });
 
 module.exports = mongoose.model("user", User);

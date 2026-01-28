@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { URL } from '../Url'
 import './be.css'
@@ -6,27 +6,40 @@ import './be.css'
 function Verifyotp() {
     const [email, setemail] = useState('')
     const [otp, setotp] = useState('')
-    const [err, seterr] = useState('')
-    const [verified, setverified] = useState('')
+    const [status, setStatus] = useState({ type: '', msg: '' })
     const [wait, setwait] = useState(false)
+    const [shouldRedirect, setShouldRedirect] = useState(false)
 
-    const otpSubmit = (e) => {
+    // Auto-close status after 3 seconds
+    useEffect(() => {
+        if (status.msg) {
+            const timer = setTimeout(() => {
+                setStatus({ type: '', msg: '' })
+            }, 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [status.msg])
+
+    const otpSubmit = async (e) => {
         e.preventDefault()
+        setStatus({ type: '', msg: '' })
+        setwait(true)
         try {
-            setwait(true)
-            URL.post('/otp-verification', { email, otp }).then((res) => {
-                alert(res.data.msg)
-                setverified(res.data.msg)
-                setwait(false)
-            }).catch((err) => {
-                setwait(false)
-                seterr(err.response.data.msg);
-            })
-        } catch (error) {
-            alert(error.message)
+            const res = await URL.post('/otp-verification', { email, otp })
+            setStatus({ type: 'success', msg: res.data.msg })
+            setwait(false)
+
+            setTimeout(() => {
+                setShouldRedirect(true)
+            }, 2000)
+
+        } catch (err) {
+            setwait(false)
+            setStatus({ type: 'error', msg: err.response?.data?.msg || err.message })
         }
     }
-    if (verified) {
+
+    if (shouldRedirect) {
         return <Navigate to='/login' />
     }
 
@@ -34,18 +47,25 @@ function Verifyotp() {
         <div className="otp-verify">
             <center><br />
                 <h2 style={{ color: 'green', textTransform: 'capitalize' }}>otp has sent to your mail please verify</h2>
-                <form onSubmit={otpSubmit} className='form'>
-                    <input type="email" name="email" id="email-verify" required placeholder='enter registered email' value={email} onChange={(e) => setemail(e.target.value)} />
-                    <input type="number" name="otp" id="verify" placeholder='Enter otp' required value={otp} onChange={(e) => setotp(e.target.value)} />
+                <form onSubmit={otpSubmit} className='otp-verify-form'>
+                    <input type="email" name="email" id="email" required placeholder='enter registered email' value={email} onChange={(e) => setemail(e.target.value)} />
+                    <input type="number" name="otp" id="otp" placeholder='Enter otp' required value={otp} onChange={(e) => setotp(e.target.value)} />
                     {
                         wait ?
-                            <div className='loginwait'><span></span></div> :
-                            <input type="submit" className='submit' value="confirm" />
+                            <button type="submit" className='submit' disabled style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                                <div className="spinner"></div> Verifying...
+                            </button> :
+                            <button type="submit" className='submit'>Confirm</button>
                     }
+
+                    {status.msg && (
+                        <div className={`status-msg ${status.type}`} style={{ width: '60%' }}>
+                            <span>{status.msg}</span>
+                            <button type="button" className="status-close-btn" onClick={() => setStatus({ type: '', msg: '' })}>&times;</button>
+                        </div>
+                    )}
                 </form>
-                <h3 style={{ color: 'red' }}>{err}</h3><br />
             </center>
-            <center><h3 style={{ textTransform: 'capitalize', color: "green", textDecoration: "underline" }}>{verified}</h3></center>
         </div >
     )
 }

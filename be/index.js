@@ -26,7 +26,8 @@ const {
 app.use(cors());
 
 // json
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // db connection
 mongoose.connect(process.env.URI);
 // db connection
@@ -41,6 +42,18 @@ app.post("/add-messages", savemessages);
 app.get("/get-messages/:senderID/:receiverID", getmessages);
 app.get("/my-profile", middleware, userProfile);
 app.get("/all-users", middleware, allUsers);
+app.get("/user-image/:id", async (req, res) => {
+  try {
+    const user = await require("./models/registermodel").findById(req.params.id);
+    if (!user || !user.image) {
+      return res.status(404).send("Not Found");
+    }
+    res.set("Content-Type", user.imageType);
+    res.send(user.image);
+  } catch (err) {
+    res.status(500).send("Error");
+  }
+});
 // authentfication routes
 
 // user data

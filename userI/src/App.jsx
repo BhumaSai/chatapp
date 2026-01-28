@@ -18,17 +18,15 @@ const ResetPassword = React.lazy(() => import('./B_E_code/ResetPassword'))
 
 
 function App() {
-  if (window.innerWidth < 450) {
-    <Navigate to='/device_error' />
-  }
   return (
     <>
-      <HashRouter>
+      <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        {window.innerWidth < 250 && <Navigate to='/device_error' />}
         <Routes basename='/'>
           <Route path='/' element={<Home />} />
           <Route path='/chatapplication' element={<Home />} />
           <Route path='/chat' element={<Suspense fallback={<Loader />}><Chat /></Suspense>} />
-          <Route path='/users?' element={<Suspense fallback={<Loader />}><Users /></Suspense>} />
+          <Route path='/users' element={<Suspense fallback={<Loader />}><Users /></Suspense>} />
           <Route path='/login' element={<Suspense fallback={<Loader />}><Login /></Suspense>} />
           <Route path='/register' element={<Suspense fallback={<Loader />}><Registration /></Suspense>} />
           <Route path='/verify' element={<Suspense fallback={<Loader />}><Verifyotp /></Suspense>} />

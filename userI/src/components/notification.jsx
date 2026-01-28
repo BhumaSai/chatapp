@@ -68,7 +68,12 @@ function Notification() {
                                 const { _id, image } = data
                                 return (
                                     <div className="request" key={index} >
-                                        <img src={image} alt="" height={'50px'} width={'50px'} onClick={() => setUserdet(data)} style={{ cursor: 'pointer' }} />
+                                        {image && image !== null && image !== undefined ?
+                                            <img src={image} alt="" height={'50px'} width={'50px'} onClick={() => setUserdet(data)} style={{ cursor: 'pointer', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--aqua-primary)' }} /> :
+                                            <div className='circle' style={{ width: '50px', height: '50px', cursor: 'pointer', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)' }} onClick={() => setUserdet(data)}>
+                                                <p className='letter' style={{ fontSize: '1.2rem', color: '#000', margin: 0, fontWeight: 700 }}>{data.name ? data.name[0].toUpperCase() : '?'}</p>
+                                            </div>
+                                        }
                                         <div className='buttons-section'>
                                             <button onClick={() => acceptRequest(_id)}>accept</button>
                                             <button onClick={() => deleteRequest(_id)}>delete</button>
@@ -80,11 +85,16 @@ function Notification() {
                     }
                     {
                         userdet ?
-                            <div className='user-Friend-Profile ' style={{ zIndex: '10000' }}>
+                            <div className='user-Friend-Profile'>
                                 <div className="friend-Profile">
-                                    <button className='btn profilebtn' onClick={() => setUserdet('')} ><FaRegCircleXmark /></button>
+                                    <button className='profilebtn' onClick={() => setUserdet('')} ><FaRegCircleXmark /></button>
                                     <div className="friend-details">
-                                        <img src={userdet.image} alt={userdet.name} />
+                                        {userdet.image && userdet.image !== "null" && userdet.image !== "undefined" ?
+                                            <img src={userdet.image} alt={userdet.name} style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', border: '3px solid var(--aqua-primary)' }} /> :
+                                            <div className='circle' style={{ width: '100px', height: '100px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid var(--aqua-primary)' }}>
+                                                <p className='letter' style={{ fontSize: '2.5rem', color: '#000', margin: 0, fontWeight: 700 }}>{userdet.name ? userdet.name[0].toUpperCase() : '?'}</p>
+                                            </div>
+                                        }
                                         <h5 className='name'>Name : {userdet.name}</h5>
                                         <p className='email'>Mail : {userdet.email}</p>
                                         <span> {userdet.gender === 'Female' ? <FaVenus /> : <BsGenderMale />} Gender :  {userdet.gender} </span>

@@ -18,10 +18,14 @@ const register = async (req, res) => {
     // Check if user exists
     const exist = await User.findOne({ email: normalizedEmail });
     if (exist) {
-      return res.status(409).json({
-        status: false,
-        msg: "User already exists",
-      });
+      if (exist.verified) {
+        return res.status(409).json({
+          status: false,
+          msg: "User already exists",
+        });
+      } else {
+        await User.deleteOne({ _id: exist._id });
+      }
     }
     // Password strength validation
     const PASSWORD_REGEX =
@@ -38,13 +42,22 @@ const register = async (req, res) => {
         msg: "Password & confirmpassword must be same",
       });
     }
+    // Process image if provided
+    let imageData = null;
+    let imageType = null;
+    if (image && image.includes('base64')) {
+      const parts = image.split(';base64,');
+      imageType = parts[0].split(':')[1];
+      imageData = Buffer.from(parts[1], 'base64');
+    }
+
     // user schema
     const newUser = new User({
       name,
       email: normalizedEmail,
       password,
-      confirmpassword,
-      image,
+      image: imageData,
+      imageType: imageType,
       gender,
     });
     // Prevent duplicate verification records
@@ -59,19 +72,16 @@ const register = async (req, res) => {
     await verification.save();
     await newUser.save();
 
-    try {
-      await transporter().sendMail({
-        from: process.env.E_Mail,
-        to: normalizedEmail,
-        subject: "OTP verification",
-        html: `<h2>OTP</h2></br>${otpNo}</p>`,
-      });
-    } catch (mailErr) {
-      return res.status(500).json({
-        status: false,
-        msg: "Registration succeeded but failed to send OTP email.",
-      });
-    }
+    // Send OTP email asynchronously to speed up response
+    transporter().sendMail({
+      from: process.env.E_Mail,
+      to: normalizedEmail,
+      subject: "OTP verification",
+      html: `<h2>OTP</h2></br>${otpNo}</p>`,
+    }).catch(err => {
+      console.error("Delayed Email Error:", err.message);
+    });
+
     return res.status(200).json({
       status: true,
       msg: "Successfully registered. Please check your email for OTP.",

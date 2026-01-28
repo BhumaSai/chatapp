@@ -20,11 +20,11 @@ function Myprofile() {
       URL.get('/my-profile', { headers: { Token: localStorage.getItem('Token') } }).then(res => {
         setdata(res.data.user);
         setfriends(res.data.myfriends)
+        setloading(false)
       }).catch(err => {
-        console.log(err.message);
         seterror(err.message)
+        setloading(false)
       })
-      setloading(false)
     } catch (error) {
       alert(error.message)
       setloading(false)
@@ -51,12 +51,15 @@ function Myprofile() {
             <div className="my-profile-section">
               <div className="my-profile">
                 <div className='circle'>
-                  <p className='letter'>{data.name[0].toUpperCase()}</p>
+                  {data.image && data.image !== null && data.image !== undefined ?
+                    <img src={data.image} alt={data.name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> :
+                    <p className='letter'>{data.name ? data.name[0].toUpperCase() : '?'}</p>
+                  }
                 </div>
                 <div className="my-data">
-                  <h3>Name: <span>{data.name}</span></h3><hr /><br />
-                  <h3>Mail-ID : <span>{data.email}</span></h3><hr /><br />
-                  <h3>Gender : <span>{data.gender}</span></h3><hr /><br />
+                  <h3>Name: <span>{data.name}</span></h3><br />
+                  <h3>Mail-ID : <span>{data.email}</span></h3><br />
+                  <h3>Gender : <span>{data.gender}</span></h3><br />
                   <div className="show-friends">
                     <button className='btn my-p-b' onClick={() => setshowfriends(!showfriends)}>friends{showfriends ? <FaCaretUp /> : <FaCaretDown />}</button>
                   </div>
@@ -71,8 +74,11 @@ function Myprofile() {
                       const { _id, name } = data;
                       return (
                         <div className='all-friends' key={_id}>
-                          <div className='circle'>
-                            <p className='letter' style={{ color: "white", textAlign: "center" }}>{name[0].toUpperCase()}</p>
+                          <div className='circle' style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)' }}>
+                            {data.image && data.image !== "null" && data.image !== "undefined" ?
+                              <img src={data.image} alt={name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> :
+                              <p className='letter' style={{ color: "black", textAlign: "center", margin: 0, fontWeight: 700 }}>{name ? name[0].toUpperCase() : '?'}</p>
+                            }
                           </div>
                           <p>{name}</p>
                           <button className='btn trashbtn' onClick={() => {
@@ -94,7 +100,8 @@ function Myprofile() {
                 </div>
               </div>
             </div> :
-            <Loader />
+            error ? <center><h3 style={{ color: 'red' }}>{error}</h3></center> :
+              <Loader />
         }
       </center>
     </>

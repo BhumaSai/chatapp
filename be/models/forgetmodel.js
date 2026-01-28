@@ -37,4 +37,7 @@ forgetpassword.methods.comparetoken = async function (otpi) {
   return await bcrypt.compare(otpi, this.resetotp);
 };
 
+// Add TTL index to automatically delete reset records after 10 minutes
+forgetpassword.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
+
 module.exports = mongoose.model("forgetpassword", forgetpassword);

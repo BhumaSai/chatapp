@@ -51,11 +51,13 @@ exports.getUserFriends = async (req, res) => {
       userFriends.map(async (friendId) => {
         const friend = await Users.findById(friendId);
         if (friend) {
+          const friendObj = friend.toObject();
           return {
-            name: friend.name,
-            email: friend.email,
-            gender: friend.gender,
-            _id: friend._id,
+            name: friendObj.name,
+            email: friendObj.email,
+            gender: friendObj.gender,
+            image: friendObj.image,
+            _id: friendObj._id,
           };
         }
         return null;
@@ -98,20 +100,24 @@ exports.userProfile = async (req, res) => {
       myfriends.map(async (friendId) => {
         const friend = await Users.findById(friendId);
         if (friend) {
+          const friendObj = friend.toObject();
           return {
-            name: friend.name,
-            email: friend.email,
-            gender: friend.gender,
+            name: friendObj.name,
+            email: friendObj.email,
+            gender: friendObj.gender,
+            image: friendObj.image,
           };
         }
         return null;
       })
     );
-    // Only expose user name, email, gender
+    // Only expose user name, email, gender, image
+    const userObj = user.toObject();
     const userData = {
-      name: user.name,
-      email: user.email,
-      gender: user.gender,
+      name: userObj.name,
+      email: userObj.email,
+      gender: userObj.gender,
+      image: userObj.image,
     };
     return res.status(200).json({
       user: userData,

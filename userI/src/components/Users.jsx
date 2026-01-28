@@ -50,7 +50,12 @@ function Users() {
               const { _id, image, name } = data;
               return (
                 <div className="user" key={_id}>
-                  <img src={image} alt="img" />
+                  {image && image !== null && image !== undefined ?
+                    <img src={image} alt="img" /> :
+                    <div className='circle' style={{ width: '90px', height: '90px', fontSize: '2.5rem', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid var(--aqua-primary)' }}>
+                      <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700 }}>{name ? name[0].toUpperCase() : '?'}</p>
+                    </div>
+                  }
                   <h4>{name}</h4>
                   <div>
                     <button className="btn" onClick={() => {

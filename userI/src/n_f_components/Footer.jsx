@@ -6,15 +6,20 @@ function Footer() {
   return (
     <>
       <footer className='footer-section'>
-        <div className='footer-items'>
-          <div className='main-text'>
-            <h3>designed & developed by<span>Bhuma Sai</span></h3>
-            <p><CgMail size='1rem' />  bhumasairam123@gmail.com</p>
+        <div className='footer-container'>
+          <div className='footer-main-info'>
+            <div className='footer-brand'>
+              <h3>designed & developed by <span>Bhuma Sai</span></h3>
+              <p><CgMail className="footer-icon" /> bhumasairam123@gmail.com</p>
+            </div>
+            <div className='footer-links-group'>
+              <a href="https://github.com/BhumaSai" target='_blank' rel="noopener noreferrer"><FaGithub /> GitHub</a>
+              <a href="https://www.linkedin.com/in/bhuma-sai/" target='_blank' rel="noopener noreferrer"><FaLinkedin /> LinkedIn</a>
+              <a href="https://twitter.com/your_handle" target='_blank' rel="noopener noreferrer"><FaTwitter /> Twitter</a>
+            </div>
           </div>
-          <div className='footer-links'>
-            <a href="https://github.com/BhumaSai" target='blank'><FaGithub color='#fff' size='1.2rem' /> Git Hub</a>
-            <a href="https://www.linkedin.com/in/bhuma-sai/" target='blank'><FaLinkedin color='#1515d8' size='1.2rem' /> Linked in</a>
-            <a href="https"><FaTwitter color='#7fc6ef' size='1.2rem' /> twitter</a>
+          <div className="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} Chat App. All rights reserved.</p>
           </div>
         </div>
       </footer>

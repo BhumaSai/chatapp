@@ -29,9 +29,12 @@ verificationUser.pre("save", async function (next) {
   next();
 });
 
+
 verificationUser.methods.compareotp = async function (otpi) {
-  const result = await bcrypt.compareSync(otpi, this.otp);
-  return result;
+  return await bcrypt.compare(otpi, this.otp);
 };
+
+// Add TTL index to automatically delete verification records after 10 minutes
+verificationUser.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
 
 module.exports = mongoose.model("verificationUser", verificationUser);

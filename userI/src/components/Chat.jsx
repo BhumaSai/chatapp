@@ -9,6 +9,7 @@ import dateFormat from 'dateformat'
 import { FaArrowAltCircleLeft, FaEllipsisV } from 'react-icons/fa'
 import Userprofile from './Userprofile'
 import { URL } from '../Url'
+import Loader from '../n_f_components/loader'
 
 const Nav = React.lazy(() => import('../n_f_components/Nav'))
 
@@ -32,7 +33,7 @@ function Chat() {
   // scrolling messages auto
   const scrollMsg = useRef()
   useEffect(() => {
-    scrollMsg.current?.scrollIntoView({ behaviour: 'smooth' })
+    scrollMsg.current?.scrollIntoView({ behavior: 'smooth' })
   }, [conversation])
   // socket 
   const socket = useRef()
@@ -86,6 +87,7 @@ function Chat() {
     setPickUser(User)
     setselecteduser(User._id)
     setconversation([])
+    setViewProfile(false) // Ensure profile is closed when switching users
     if (owner) {
       URL.get(`/get-messages/${User._id}/${owner}`).then(res => { setconversation(res.data.messages) }).catch(err => alert(err))
     }
@@ -120,9 +122,18 @@ function Chat() {
   }
   // profile view function
   const viewProfilefunc = (e) => {
-    e.preventDefault()
+    if (e) e.preventDefault()
     setViewProfile(!viewProfile)
-    settoggle(!toggle)
+    // Only close menu if we are opening profile
+    if (!viewProfile) {
+      settoggle(false)
+    }
+  }
+
+  // Close profile only
+  const closeProfile = (e) => {
+    if (e) e.preventDefault()
+    setViewProfile(false)
   }
 
   // getting all online users
@@ -137,65 +148,91 @@ function Chat() {
     return <Navigate to='/login' />
   }
 
+  const isUserOnline = pickUser && Array.isArray(online) && online.some(data => data.User === pickUser._id);
+
   return (
     <>
-      <Suspense fallback={<center>...</center>}><Nav /></Suspense>
+      <Suspense fallback={<Loader />}><Nav /></Suspense>
       <center>
         <div className="chat-box">
           <div className="chat-items">
-            <div className={pickUser ? "chat-users width" : "chat-users-full"}>
-              <h3 className='message-title'>messages</h3>
+            {/* If pickUser is true (chat active), hide chat-users on mobile. 
+                We can control this with CSS classes. */}
+            <div className={`chat-users ${pickUser ? 'hidden-on-mobile' : ''}`}>
+              <h3 className='message-title'>Friends</h3>
               {friends ?
                 Array.isArray(friends) && friends.map(data => {
                   const { _id, name } = data
                   return (
-                    <div key={_id} className={active._id === _id ? "user-chat-active" : "user-chat"} onClick={() => selectUser(data)}>
-                      <div className='circle'>
-                        <p className='letter'>{name[0].toUpperCase()}</p>
+                    <>
+                      <div key={_id} className={active._id === _id && pickUser ? "user-chat-active" : "user-chat"} onClick={() => selectUser(data)}>
+                        <div className='circle' style={{ borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)', width: '45px', height: '45px' }}>
+                          {data.image && data.image !== null && data.image !== undefined ?
+                            <img src={data.image} alt={name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> :
+                            <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700, fontSize: '1.2rem' }}>{name ? name[0].toUpperCase() : '?'}</p>
+                          }
+                        </div>
+                        <h5 id='friend-name'>{name}</h5>
+                        <span className={Array.isArray(online) && online.some(data => { return data.User === _id }) ? 'online' : 'offline'}></span>
                       </div>
-                      <h5 id='friend-name'>{name}</h5>
-                      <span className={Array.isArray(online) && online.some(data => { return data.User === _id }) ? 'online' : 'offline'}></span>
-                    </div>
+
+                    </>
                   )
                 })
                 : null
               }
               {
-                loadingfriends ? <div className='select'><h3>loading ..........</h3></div> : null
+                loadingfriends ?
+                  <div className='friends-loading'>
+                    <div className="spinner-small"></div>
+                  </div>
+                  : null
               }
-              {/* message area */}
             </div>
-            {pickUser ?
+
+            {pickUser ? (
               <div className={"chat-area"}>
                 <div className="conversation">
                   <div className="det">
-                    <button className='btn' onClick={() => setPickUser()}> <FaArrowAltCircleLeft fontSize={'1.3rem'} /></button>
-                    <div className='circle' style={{ width: "40px", height: "40px" }}>
-                      <p className='letter'>{pickUser.name[0].toUpperCase()}</p>
+                    <button className='btn back-btn' onClick={() => setPickUser(undefined)}> <FaArrowAltCircleLeft fontSize={'1.3rem'} /></button>
+                    <div className='circle' style={{ width: "40px", height: "40px", borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)' }}>
+                      {pickUser.image && pickUser.image !== "null" && pickUser.image !== "undefined" ?
+                        <img src={pickUser.image} alt={pickUser.name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> :
+                        <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700 }}>{pickUser.name ? pickUser.name[0].toUpperCase() : '?'}</p>
+                      }
                     </div>
-                    <h5>{pickUser.name}</h5>
+                    <div className="user-header-info">
+                      <h5>{pickUser.name}</h5>
+                      <p className={`user-status-text ${isUserOnline ? 'online-text' : 'offline-text'}`}>
+                        {isUserOnline ? 'Online' : 'Offline'}
+                      </p>
+                    </div>
                   </div>
                   <div className="details">
                     <button className='btn btn2' onClick={togglemenu}> <FaEllipsisV size={"1.3rem"} /></button>
-                    <div className="det-items" id={!toggle ? 'display' : ''}>
-                      <button className="btn delbtn" onClick={viewProfilefunc}>view profile</button>
+                    <div className={`det-items ${toggle ? 'show-menu' : ''}`}>
+                      <button className="btn" onClick={viewProfilefunc}>View Profile</button>
                     </div>
-                    <Userprofile pickUser={pickUser} viewProfilefunc={viewProfilefunc} viewProfile={viewProfile} toggle={toggle} />
+                    <Userprofile pickUser={pickUser} viewProfilefunc={closeProfile} viewProfile={viewProfile} />
                   </div>
                 </div>
 
                 <div className="messages">
                   {
-                    pickUser ?
-                      conversation.map((data, index) => {
-                        const { senderID, receiverID, message, updatedAt } = data;
-                        return (
-                          <div className={owner !== receiverID ? "sender" : 'receiver'} key={index} ref={scrollMsg}>
-                            <p className={owner === senderID ? "send-text" : 'receive-text'}>{message}</p>
-                            <h6 className='current-time' >{updatedAt ? dateFormat(updatedAt, 'hh:MM') : dateFormat(new Date(), "hh:MM")}</h6>
-                          </div>
-                        )
-                      }) : null
+                    pickUser ? (
+                      <>
+                        {conversation.map((data, index) => {
+                          const { senderID, message, updatedAt } = data;
+                          return (
+                            <div className={owner === senderID ? "sender" : 'receiver'} key={index}>
+                              <p className={owner === senderID ? "send-text" : 'receive-text'}>{message}</p>
+                              <h6 className='current-time' >{updatedAt ? dateFormat(updatedAt, 'hh:MM') : dateFormat(new Date(), "hh:MM")}</h6>
+                            </div>
+                          )
+                        })}
+                        <div ref={scrollMsg} />
+                      </>
+                    ) : null
                   }
 
                 </div>
@@ -204,8 +241,14 @@ function Chat() {
                   <input type="submit" className='msgBtn' id='msgs' hidden />
                   <label htmlFor="msgs"><MdSend fontSize={'1.9rem'} /></label>
                 </form>
-              </div> : null
-            }
+              </div>
+            ) : (
+              <div className="chat-area chat-welcome hidden-on-mobile">
+                <div className="welcome-text">
+                  <h3>Select a user to start chatting</h3>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </center >
