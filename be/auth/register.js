@@ -60,37 +60,63 @@ const register = async (req, res) => {
       imageType: imageType,
       gender,
     });
+
     // Prevent duplicate verification records
     await verificationmodel.deleteMany({ email: normalizedEmail });
     const otpNo = OTP();
+
     // user verification
     const verification = new verificationmodel({
       userID: newUser.id,
       otp: otpNo,
       email: normalizedEmail,
     });
-    await verification.save();
-    await newUser.save();
 
-    // Send OTP email asynchronously to speed up response
-    transporter().sendMail({
-      from: process.env.E_Mail,
-      to: normalizedEmail,
-      subject: "OTP verification",
-      html: `<h2>OTP</h2></br>${otpNo}</p>`,
-    }).catch(err => {
-      console.error("Delayed Email Error:", err.message);
-    });
+    try {
+      // Save user and verification data
+      await newUser.save();
+      await verification.save();
 
-    return res.status(200).json({
-      status: true,
-      msg: "Successfully registered. Please check your email for OTP.",
-    });
+      // Send OTP email - Await to ensure delivery success for accurate response
+      await transporter().sendMail({
+        from: process.env.E_Mail,
+        to: normalizedEmail,
+        subject: "OTP Verification - ChatApp",
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+            <h2 style="color: #008b8b;">Verification Code</h2>
+            <p>Thank you for registering! Your OTP for verification is:</p>
+            <h1 style="background: #f4f4f4; padding: 10px; display: inline-block; letter-spacing: 5px; color: #008b8b;">${otpNo}</h1>
+            <p>This code will expire in 10 minutes.</p>
+          </div>
+        `,
+      });
+
+      return res.status(200).json({
+        status: true,
+        msg: "Successfully registered. Please check your email for OTP.",
+      });
+
+    } catch (mailError) {
+      console.error("Registration Process Error:", mailError);
+
+      // Cleanup: If mail fails, we should ideally not leave the unverified user in a half-created state
+      // though the TTL index will catch it, it's better to report the error immediately.
+      await User.deleteOne({ _id: newUser._id });
+      await verificationmodel.deleteOne({ _id: verification._id });
+
+      return res.status(500).json({
+        status: false,
+        msg: "Failed to send OTP email. Please try again later.",
+        error: mailError.message
+      });
+    }
+
   } catch (error) {
-    console.log(error);
+    console.error("General Registration Error:", error);
     return res.status(500).json({
       status: false,
-      msg: "server error",
+      msg: "Server error during registration",
     });
   }
 };

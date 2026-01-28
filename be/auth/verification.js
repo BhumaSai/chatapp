@@ -56,20 +56,35 @@ const verification = async (req, res) => {
         email: normalizedEmail,
       });
       await newVerification.save();
-      // Send new OTP email asynchronously
-      transporter().sendMail({
-        from: process.env.E_Mail,
-        to: normalizedEmail,
-        subject: "OTP verification",
-        html: `<h2>OTP</h2></br>${newOtp}</p>`,
-      }).catch(err => {
-        console.error("Delayed Resend Email Error:", err.message);
-      });
+      try {
+        // Send new OTP email
+        await transporter().sendMail({
+          from: process.env.E_Mail,
+          to: normalizedEmail,
+          subject: "New OTP Verification Code - ChatApp",
+          html: `
+            <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+              <h2 style="color: #008b8b;">New Verification Code</h2>
+              <p>Your previous code expired. Here is your new OTP:</p>
+              <h1 style="background: #f4f4f4; padding: 10px; display: inline-block; letter-spacing: 5px; color: #008b8b;">${newOtp}</h1>
+              <p>This code will expire in 10 minutes.</p>
+            </div>
+          `,
+        });
 
-      return res.status(440).json({
-        status: false,
-        msg: "OTP expired. A new OTP has been sent to your email.",
-      });
+        return res.status(440).json({
+          status: false,
+          msg: "OTP expired. A new OTP has been sent to your email.",
+        });
+
+      } catch (mailError) {
+        console.error("Resend OTP Error:", mailError);
+        return res.status(500).json({
+          status: false,
+          msg: "OTP expired, but failed to send a new one. Please try again later.",
+          error: mailError.message
+        });
+      }
     }
     // Validate OTP
     const isOtpValid = await tokenRecord.compareotp(otp);

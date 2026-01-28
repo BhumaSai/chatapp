@@ -49,31 +49,45 @@ module.exports.forgetpassword = async (req, res) => {
       resetotp,
     });
     await resetData.save();
-    console.log(
-      `http://localhost:3000/#/reset_password?id=${checkUser._id}&token=${resetotp}`
-    );
+    // console.log(
+    //   `http://localhost:3000/#/reset_password?id=${checkUser._id}&token=${resetotp}`
+    // );
     const mailTransporter = transporter();
-    mailTransporter.sendMail(
-      {
+    try {
+      await mailTransporter.sendMail({
         from: process.env.E_Mail,
         to: checkUser.email,
-        subject: "Reset Password",
-        text: `https://feelfreetochat.netlify.app/#/reset_password?id=${checkUser._id}&token=${resetotp}`,
-      },
-      (err, info) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            status: false,
-            msg: "Failed to send reset link. Please try again later.",
-          });
-        }
-        return res.status(200).json({
-          status: true,
-          msg: "Reset Link Has Sent To Your mail Please Check Mail",
-        });
-      }
-    );
+        subject: "Secure Password Reset - ChatApp",
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+            <h2 style="color: #008b8b;">Password Reset Request</h2>
+            <p>We received a request to reset your password. Click the button below to proceed:</p>
+            <a href="https://feelfreetochat.netlify.app/#/reset_password?id=${checkUser._id}&token=${resetotp}" 
+               style="background: #008b8b; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 15px;">
+               Reset My Password
+            </a>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+              Or copy and paste this link in your browser:<br>
+              https://feelfreetochat.netlify.app/#/reset_password?id=${checkUser._id}&token=${resetotp}
+            </p>
+            <p>This link will expire in 15 minutes.</p>
+          </div>
+        `,
+      });
+
+      return res.status(200).json({
+        status: true,
+        msg: "Reset Link Has Sent To Your mail Please Check Mail",
+      });
+
+    } catch (mailError) {
+      console.log("Forget Password Mail Error:", mailError);
+      return res.status(500).json({
+        status: false,
+        msg: "Failed to send reset link. Please try again later.",
+        error: mailError.message
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       msg: "server error",
