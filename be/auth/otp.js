@@ -11,19 +11,20 @@ module.exports.OTP = () => {
 }
 module.exports.transporter = () => nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 465,
-  secure: true, // true for 465, false for other ports
-  pool: true,   // Use pooled connections
+  port: 587,
+  secure: false, // Use STARTTLS (true for 465, false for 587)
+  pool: true,
   auth: {
     user: process.env.E_Mail,
     pass: process.env.Password
   },
   tls: {
-    rejectUnauthorized: false // Helps with some hosting provider restrictions
+    rejectUnauthorized: false,
+    minVersion: 'TLSv1.2'
   },
-  connectionTimeout: 10000, // 10 seconds
-  greetingTimeout: 5000,    // 5 seconds
-  socketTimeout: 15000      // 15 seconds
+  connectionTimeout: 15000, // 15 seconds
+  greetingTimeout: 10000,   // 10 seconds
+  socketTimeout: 20000      // 20 seconds
 })
 
 

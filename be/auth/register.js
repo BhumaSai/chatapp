@@ -6,6 +6,7 @@ const dotenv = require("dotenv").config();
 const register = async (req, res) => {
   try {
     const { name, email, password, confirmpassword, image, gender } = req.body;
+    console.log(email)
     // Check required fields
     if (!name || !email || !password || !confirmpassword || !gender) {
       return res.status(400).json({
