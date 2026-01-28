@@ -39,11 +39,20 @@ function Login() {
       setlogwait(true)
       const res = await URL.post('/login', login)
 
-      // Axios success (200 status)
-      // Check for user verification just in case, though usually 403 is thrown if not verified
+      // axios success (200 status)
       if (res.data.user.verified) {
+        let userImage = res.data.user.image;
+
+        // Ensure image is stored as a Base64 string even if it's a Buffer object
+        if (userImage && typeof userImage === 'object' && userImage.type === 'Buffer' && Array.isArray(userImage.data)) {
+          const base64String = btoa(
+            userImage.data.reduce((data, byte) => data + String.fromCharCode(byte), '')
+          );
+          userImage = `data:${res.data.user.imageType || 'image/png'};base64,${base64String}`;
+        }
+
         localStorage.setItem('Token', res.data.token)
-        localStorage.setItem('image', res.data.user.image);
+        localStorage.setItem('image', userImage)
         localStorage.setItem('UserID', res.data.user._id)
         localStorage.setItem('name', res.data.user.name)
         setlog(200)
@@ -98,6 +107,20 @@ function Login() {
           <div className="redirect-register">
             <Link to='/mail_verify'>forget password?</Link>
             <p>don't have account <Link to='/register'>register</Link></p>
+          </div>
+
+          <div className="demo-accounts">
+            <h4>Demo Accounts (Skip OTP)</h4>
+            <div className="demo-account-info">
+              <div className="demo-account-item">
+                <div>Email: <strong>mipano3873@ixunbo.com</strong></div>
+                <div>Password: <strong>Abcd@123</strong></div>
+              </div>
+              <div className="demo-account-item">
+                <div>Email: <strong>gapali4650@juhxs.com</strong></div>
+                <div>Password: <strong>Abcd@1234</strong></div>
+              </div>
+            </div>
           </div>
 
           {status.msg && (

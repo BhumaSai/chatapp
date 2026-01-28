@@ -853,3 +853,57 @@ h4 a:hover {
     justify-content: center;
     flex-shrink: 0;
 }
+
+/* Demo Accounts Section */
+.demo-accounts {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px dashed rgba(0, 229, 255, 0.2);
+    text-align: left;
+    width: 100%;
+}
+
+.demo-accounts h4 {
+    color: var(--aqua-primary);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.demo-account-info {
+    display: grid;
+    gap: 0.8rem;
+}
+
+.demo-account-item {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 0.8rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.demo-account-item div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+}
+
+.demo-account-item div:last-child {
+    margin-bottom: 0;
+}
+
+.demo-account-item strong {
+    color: var(--text-primary);
+    font-family: monospace;
+    background: rgba(0, 229, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+}

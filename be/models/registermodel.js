@@ -48,9 +48,16 @@ const User = new mongoose.Schema(
     toJSON: {
       transform: function (doc, ret) {
         if (ret.image && ret.imageType) {
-          // Check if it's already a string or a Buffer
-          const buffer = Buffer.isBuffer(ret.image) ? ret.image : (ret.image.buffer || ret.image);
-          if (Buffer.isBuffer(buffer)) {
+          let buffer;
+          if (Buffer.isBuffer(ret.image)) {
+            buffer = ret.image;
+          } else if (ret.image.buffer && Buffer.isBuffer(ret.image.buffer)) {
+            buffer = ret.image.buffer;
+          } else if (ret.image.type === 'Buffer' && Array.isArray(ret.image.data)) {
+            buffer = Buffer.from(ret.image.data);
+          }
+
+          if (buffer) {
             ret.image = `data:${ret.imageType};base64,${buffer.toString('base64')}`;
           }
         }
@@ -61,8 +68,16 @@ const User = new mongoose.Schema(
     toObject: {
       transform: function (doc, ret) {
         if (ret.image && ret.imageType) {
-          const buffer = Buffer.isBuffer(ret.image) ? ret.image : (ret.image.buffer || ret.image);
-          if (Buffer.isBuffer(buffer)) {
+          let buffer;
+          if (Buffer.isBuffer(ret.image)) {
+            buffer = ret.image;
+          } else if (ret.image.buffer && Buffer.isBuffer(ret.image.buffer)) {
+            buffer = ret.image.buffer;
+          } else if (ret.image.type === 'Buffer' && Array.isArray(ret.image.data)) {
+            buffer = Buffer.from(ret.image.data);
+          }
+
+          if (buffer) {
             ret.image = `data:${ret.imageType};base64,${buffer.toString('base64')}`;
           }
         }

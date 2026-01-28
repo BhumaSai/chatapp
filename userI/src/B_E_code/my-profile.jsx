@@ -50,11 +50,21 @@ function Myprofile() {
           data && !Loading && !error ?
             <div className="my-profile-section">
               <div className="my-profile">
-                <div className='circle'>
-                  {data.image && data.image !== null && data.image !== undefined ?
-                    <img src={data.image} alt={data.name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> :
-                    <p className='letter'>{data.name ? data.name[0].toUpperCase() : '?'}</p>
-                  }
+                <div className='circle' style={{ width: '100px', height: '100px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid var(--aqua-primary)', overflow: 'hidden' }}>
+                  {(() => {
+                    let imgSrc = null;
+                    if (data.image) {
+                      if (typeof data.image === 'string' && data.image !== "null" && data.image !== "undefined") {
+                        imgSrc = data.image;
+                      } else if (typeof data.image === 'object' && data.image.type === 'Buffer' && Array.isArray(data.image.data)) {
+                        const base64String = btoa(data.image.data.reduce((acc, byte) => acc + String.fromCharCode(byte), ''));
+                        imgSrc = `data:image/png;base64,${base64String}`;
+                      }
+                    }
+                    return imgSrc ?
+                      <img src={imgSrc} alt={data.name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} /> :
+                      <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700, fontSize: '3rem' }}>{data.name ? data.name[0].toUpperCase() : '?'}</p>
+                  })()}
                 </div>
                 <div className="my-data">
                   <h3>Name: <span>{data.name}</span></h3><br />
@@ -74,11 +84,21 @@ function Myprofile() {
                       const { _id, name } = data;
                       return (
                         <div className='all-friends' key={_id}>
-                          <div className='circle' style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)' }}>
-                            {data.image && data.image !== "null" && data.image !== "undefined" ?
-                              <img src={data.image} alt={name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> :
-                              <p className='letter' style={{ color: "black", textAlign: "center", margin: 0, fontWeight: 700 }}>{name ? name[0].toUpperCase() : '?'}</p>
-                            }
+                          <div className='circle' style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)', overflow: 'hidden' }}>
+                            {(() => {
+                              let fImgSrc = null;
+                              if (data.image) {
+                                if (typeof data.image === 'string' && data.image !== "null" && data.image !== "undefined") {
+                                  fImgSrc = data.image;
+                                } else if (typeof data.image === 'object' && data.image.type === 'Buffer' && Array.isArray(data.image.data)) {
+                                  const base64 = btoa(data.image.data.reduce((acc, byte) => acc + String.fromCharCode(byte), ''));
+                                  fImgSrc = `data:image/png;base64,${base64}`;
+                                }
+                              }
+                              return fImgSrc ?
+                                <img src={fImgSrc} alt={name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} /> :
+                                <p className='letter' style={{ color: "black", textAlign: "center", margin: 0, fontWeight: 700 }}>{name ? name[0].toUpperCase() : '?'}</p>
+                            })()}
                           </div>
                           <p>{name}</p>
                           <button className='btn trashbtn' onClick={() => {

@@ -166,11 +166,21 @@ function Chat() {
                   return (
                     <>
                       <div key={_id} className={active._id === _id && pickUser ? "user-chat-active" : "user-chat"} onClick={() => selectUser(data)}>
-                        <div className='circle' style={{ borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)', width: '45px', height: '45px' }}>
-                          {data.image && data.image !== null && data.image !== undefined ?
-                            <img src={data.image} alt={name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> :
-                            <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700, fontSize: '1.2rem' }}>{name ? name[0].toUpperCase() : '?'}</p>
-                          }
+                        <div className='circle' style={{ borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)', width: '45px', height: '45px', overflow: 'hidden' }}>
+                          {(() => {
+                            let imgSrc = null;
+                            if (data.image) {
+                              if (typeof data.image === 'string' && data.image !== "null" && data.image !== "undefined") {
+                                imgSrc = data.image;
+                              } else if (typeof data.image === 'object' && data.image.type === 'Buffer' && Array.isArray(data.image.data)) {
+                                const base64 = btoa(data.image.data.reduce((acc, byte) => acc + String.fromCharCode(byte), ''));
+                                imgSrc = `data:image/png;base64,${base64}`;
+                              }
+                            }
+                            return imgSrc ?
+                              <img src={imgSrc} alt={name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} /> :
+                              <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700, fontSize: '1.2rem' }}>{name ? name[0].toUpperCase() : '?'}</p>
+                          })()}
                         </div>
                         <h5 id='friend-name'>{name}</h5>
                         <span className={Array.isArray(online) && online.some(data => { return data.User === _id }) ? 'online' : 'offline'}></span>
@@ -195,11 +205,21 @@ function Chat() {
                 <div className="conversation">
                   <div className="det">
                     <button className='btn back-btn' onClick={() => setPickUser(undefined)}> <FaArrowAltCircleLeft fontSize={'1.3rem'} /></button>
-                    <div className='circle' style={{ width: "40px", height: "40px", borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)' }}>
-                      {pickUser.image && pickUser.image !== "null" && pickUser.image !== "undefined" ?
-                        <img src={pickUser.image} alt={pickUser.name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%' }} /> :
-                        <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700 }}>{pickUser.name ? pickUser.name[0].toUpperCase() : '?'}</p>
-                      }
+                    <div className='circle' style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--aqua-primary)', overflow: 'hidden' }}>
+                      {(() => {
+                        let headerImg = null;
+                        if (pickUser.image) {
+                          if (typeof pickUser.image === 'string' && pickUser.image !== "null" && pickUser.image !== "undefined") {
+                            headerImg = pickUser.image;
+                          } else if (typeof pickUser.image === 'object' && pickUser.image.type === 'Buffer' && Array.isArray(pickUser.image.data)) {
+                            const base64 = btoa(pickUser.image.data.reduce((acc, byte) => acc + String.fromCharCode(byte), ''));
+                            headerImg = `data:image/png;base64,${base64}`;
+                          }
+                        }
+                        return headerImg ?
+                          <img src={headerImg} alt={pickUser.name} className="img" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} /> :
+                          <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700 }}>{pickUser.name ? pickUser.name[0].toUpperCase() : '?'}</p>
+                      })()}
                     </div>
                     <div className="user-header-info">
                       <h5>{pickUser.name}</h5>

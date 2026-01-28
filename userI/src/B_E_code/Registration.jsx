@@ -149,6 +149,20 @@ function Registration() {
 
           </form>
           <h4>already have account <Link to='/login'>log in</Link></h4>
+
+          <div className="demo-accounts">
+            <h4>Demo Accounts (Skip OTP)</h4>
+            <div className="demo-account-info">
+              <div className="demo-account-item">
+                <div>Email: <strong>mipano3873@ixunbo.com</strong></div>
+                <div>Password: <strong>Abcd@123</strong></div>
+              </div>
+              <div className="demo-account-item">
+                <div>Email: <strong>gapali4650@juhxs.com</strong></div>
+                <div>Password: <strong>Abcd@1234</strong></div>
+              </div>
+            </div>
+          </div>
         </div >
       </center >
     </>

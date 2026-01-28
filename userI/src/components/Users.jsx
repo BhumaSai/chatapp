@@ -46,16 +46,41 @@ function Users() {
         <center><h3>USERS</h3></center>
         <div className="user-section">
           {data ?
-            Array.isArray(data) && data?.map((data) => {
-              const { _id, image, name } = data;
+            Array.isArray(data) && data?.map((userData) => {
+              const { _id, image, name, imageType } = userData;
+
+              // Helper to handle both Base64 strings and Buffer objects
+              let imgSrc = null;
+              if (image) {
+                if (typeof image === 'string' && image !== "null" && image !== "undefined") {
+                  imgSrc = image;
+                } else if (typeof image === 'object' && image.type === 'Buffer' && Array.isArray(image.data)) {
+                  // Fallback for raw Buffer objects from backend
+                  const base64String = btoa(
+                    image.data.reduce((data, byte) => data + String.fromCharCode(byte), '')
+                  );
+                  imgSrc = `data:${imageType || 'image/png'};base64,${base64String}`;
+                }
+              }
+
               return (
                 <div className="user" key={_id}>
-                  {image && image !== null && image !== undefined ?
-                    <img src={image} alt="img" /> :
-                    <div className='circle' style={{ width: '90px', height: '90px', fontSize: '2.5rem', borderRadius: '50%', background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid var(--aqua-primary)' }}>
-                      <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700 }}>{name ? name[0].toUpperCase() : '?'}</p>
-                    </div>
-                  }
+                  <div className='circle' style={{
+                    width: '90px',
+                    height: '90px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, var(--aqua-primary), #008b8b)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '3px solid var(--aqua-primary)',
+                    overflow: 'hidden'
+                  }}>
+                    {imgSrc ?
+                      <img src={imgSrc} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> :
+                      <p className='letter' style={{ color: '#000', margin: 0, fontWeight: 700, fontSize: '2.5rem' }}>{name ? name[0].toUpperCase() : '?'}</p>
+                    }
+                  </div>
                   <h4>{name}</h4>
                   <div>
                     <button className="btn" onClick={() => {
