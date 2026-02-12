@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: ./be
+    container_name: backend
+    image: chatpp_backend_v1
+    ports:
+      - "4000:4000"
+    env_file:
+      - /be/.env
+  frontend:
+    build: ./userI
+    container_name: frontend
+    image: chatapp_frontend_v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+networks:
+  chat_app:
+    driver: bridge
